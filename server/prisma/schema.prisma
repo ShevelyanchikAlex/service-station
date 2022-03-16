@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Car {
+  id         Int     @id @default(autoincrement())
+  car_number String
+  brand      String
+  model      String
+  Order      Order[]
+
+  @@map(name: "cars")
+}
+
+model Order {
+  id           Int         @id @default(autoincrement())
+  status       OrderStatus
+  created_at   DateTime    @default(now()) @map(name: "created_at")
+  completed_at DateTime?   @map(name: "compleation_at")
+  cost         Float
+  car          Car?        @relation(fields: [car_id], references: [id])
+  car_id       Int?
+  services     Service[]
+
+  @@map(name: "orders")
+}
+
+model Employee {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  last_name          String
+  email              String   @unique
+  password           String
+  birth_date         DateTime
+  speciality         String
+  work_book_id       Int
+  salary             Float
+  start_working_date DateTime @map(name: "start_working_date")
+  role               Role
+  jobs               Job[]
+
+  @@map(name: "employees")
+}
+
+model Job {
+  id          Int       @id @default(autoincrement())
+  status      JobStatus
+  end_date    DateTime
+  services    Service[]
+  employee    Employee? @relation(fields: [employee_id], references: [id])
+  employee_id Int?
+
+  @@map(name: "jobs")
+}
+
+model Service {
+  id          Int       @id @default(autoincrement())
+  name        String
+  price       Float
+  warranty    Int
+  description String?
+  end_date    DateTime?
+  details     Detail[]
+  job         Job?      @relation(fields: [job_id], references: [id])
+  job_id      Int?
+  Order       Order?    @relation(fields: [orderId], references: [id])
+  orderId     Int?
+
+  @@map(name: "services")
+}
+
+model Detail {
+  id              Int           @id @default(autoincrement())
+  name            String
+  price           Float
+  warranty        Int
+  manufacturer    Manufacturer? @relation(fields: [manufacturer_id], references: [id])
+  manufacturer_id Int
+  service         Service?      @relation(fields: [service_id], references: [id])
+  service_id      Int?
+
+  @@map(name: "details")
+}
+
+model Manufacturer {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Detail Detail[]
+  @@map(name: "manufacturers")
+}
+
+enum OrderStatus {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+  CONFIRMED
+}
+
+enum JobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum Role {
+  MANAGER
+  DIRECTOR
+  MASTER
+}
