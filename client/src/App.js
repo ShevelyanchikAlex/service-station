@@ -8,13 +8,18 @@ export default () => {
     const [employees, setEmployees] = useState([])
 
     useEffect(() => {
-        const search = async () => {
-            const { data } = await server.get('/cars');
+        const search = async (path, func) => {
+            const { data } = await server.get(path);
             console.log(data);
-            setCars(data);
+            func(data);
         }
-        search();
+        search('/cars', setCars).then(() => {
+            search('/details', setDetails).then(() => {
+                search('/employees', setEmployees)
+            })
+        });
     }, []);
+
 
     const renderedCars = cars.map((result) => {
         return (
@@ -31,6 +36,37 @@ export default () => {
         )
     })
 
+    const renderedDetails = details.map((result) => {
+        return (
+            <div key={result.id} className="item">
+                <div className="content">
+                    <div className="header">
+                        {`Name: ${result.name}  Price: ${result.price}`}
+                    </div>
+                    <div>
+                        {`Manufacturer: ${result.manufacturer_id} Warranty: ${result.warranty} year`}
+                    </div>
+                </div>
+            </div>
+        )
+    })
+
+    const renderedEmployees = employees.map((result) => {
+        return (
+            <div key={result.id} className="item">
+                <div className="content">
+                    <div className="header">
+                        {`${result.name} ${result.last_name}`}
+                    </div>
+                    <div>
+                        {result.email}
+                    </div>
+                </div>
+            </div>
+        )
+    })
+
+
     return (
         <div style={{ margin: '0px 50px' }}>
             <div className="ui clearing segment"><h2 className="ui left floated header"><i aria-hidden="true" className="settings icon"></i><div className="content">Service Station<div className="sub header">Warning! Website is under development!</div></div></h2></div>
@@ -44,15 +80,15 @@ export default () => {
                             </div>
                         </div>
                         <div class="column">
-                            <h2>Table: Cars</h2>
+                            <h2>Table: Details</h2>
                             <div className="ui celled list">
-                                {renderedCars}
+                                {renderedDetails}
                             </div>
                         </div>
                         <div class="column">
-                            <h2>Table: Cars</h2>
+                            <h2>Table: Employees</h2>
                             <div className="ui celled list">
-                                {renderedCars}
+                                {renderedEmployees}
                             </div>
                         </div>
                     </div>
