@@ -3,6 +3,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
 
 import Home from './pages/Home';
+import SignIn from './pages/SignIn';
 
 class NavbarComp extends Component {
     render() {
@@ -34,7 +35,7 @@ class NavbarComp extends Component {
                     <Route path='/' element={<Home></Home>} />
                     <Route path='/home' element={<div>home</div>} />
                     <Route path='/about' element={<div>about</div>} />
-                    <Route path='/sign_in' element={<div>sign_in</div>} />
+                    <Route path='/sign_in' element={<SignIn></SignIn>} />
                     <Route path='*' element={<div>Not found</div>} />
                 </Routes>
             </div>

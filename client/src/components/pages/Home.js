@@ -42,7 +42,6 @@ const serviceList = [
 const Home = () => {
 
     const renderedItems = serviceList.map((item) => {
-        // const active = index === activeIndex ? 'active' : '';
         return (
             <Container>
                 <Col>
