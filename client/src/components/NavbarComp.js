@@ -4,6 +4,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
+import FooterComp from './FooterComp';
 
 class NavbarComp extends Component {
     render() {
@@ -38,6 +39,9 @@ class NavbarComp extends Component {
                     <Route path='/sign_in' element={<SignIn></SignIn>} />
                     <Route path='*' element={<div>Not found</div>} />
                 </Routes>
+                <div>
+                    <FooterComp></FooterComp>
+                </div>
             </div>
         );
     }

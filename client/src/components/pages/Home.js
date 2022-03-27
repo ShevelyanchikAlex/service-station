@@ -61,7 +61,7 @@ const Home = () => {
     });
 
     return (
-        <div>
+        <div style={{ marginBottom: "50px" }}>
             <CarouselComp></CarouselComp>
             <Row style={{
                 textAlign: 'center',
@@ -108,7 +108,7 @@ const Home = () => {
                     </Form>
                 </Container>
             </div>
-        </div >
+        </div>
     )
 }
 
