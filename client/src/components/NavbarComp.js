@@ -1,6 +1,8 @@
 import React, { useState, Component } from 'react';
-import { Button, Navbar, Nav, Container, NavDropdown, NavItem, Form, FormControlButton, Home } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Routes, Route, Link } from 'react-router-dom';
+
+import Home from './pages/Home';
 
 class NavbarComp extends Component {
     render() {
@@ -29,7 +31,7 @@ class NavbarComp extends Component {
                     </Navbar>
                 </div>
                 <Routes>
-                    <Route path='/' element={<div>First</div>} />
+                    <Route path='/' element={<Home></Home>} />
                     <Route path='/home' element={<div>home</div>} />
                     <Route path='/about' element={<div>about</div>} />
                     <Route path='/sign_in' element={<div>sign_in</div>} />
