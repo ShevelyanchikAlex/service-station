@@ -7,6 +7,22 @@ export class EmployeeService {
     }
 
     async getAll() {
-        return this.employeeDao.getAll();
+        return await this.employeeDao.getAll();
+    }
+
+    async getById(id) {
+        return await this.employeeDao.getById(id);
+    }
+
+    async create(employee) {
+        return await this.employeeDao.create(employee);
+    }
+
+    async update(employee) {
+        return await this.employeeDao.update(employee);
+    }
+
+    async deleteById(id) {
+        return await this.employeeDao.deleteById(id);
     }
 }
