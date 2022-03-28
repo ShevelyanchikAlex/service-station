@@ -12,7 +12,7 @@ model Car {
   car_number String
   brand      String
   model      String
-  Order      Order[]
+  orders      Order[]
 
   @@map(name: "cars")
 }
@@ -68,7 +68,7 @@ model Service {
   details     Detail[]
   job         Job?      @relation(fields: [job_id], references: [id])
   job_id      Int?
-  Order       Order?    @relation(fields: [orderId], references: [id])
+  order       Order?    @relation(fields: [orderId], references: [id])
   orderId     Int?
 
   @@map(name: "services")
@@ -91,7 +91,7 @@ model Manufacturer {
   id   Int    @id @default(autoincrement())
   name String
 
-  Detail Detail[]
+  details Detail[]
   @@map(name: "manufacturers")
 }
 
