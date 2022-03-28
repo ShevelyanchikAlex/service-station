@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import NavbarComp from './components/NavbarComp'
 import axios from 'axios'
 import server from './API/server'
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'
+
 
 export default () => {
+    return (
+        <div>
+            <NavbarComp></NavbarComp>
+        </div>
+    );
+};
+{/*export default () => {
     const [cars, setCars] = useState([]);
     const [details, setDetails] = useState([]);
     const [employees, setEmployees] = useState([])
@@ -97,3 +107,4 @@ export default () => {
         </div>
     );
 };
+*/}
