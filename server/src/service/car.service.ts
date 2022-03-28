@@ -7,6 +7,22 @@ export class CarService {
     }
 
     async getAll() {
-        return this.carDao.getAll();
+        return await this.carDao.getAll();
+    }
+
+    async getById(id) {
+        return await this.carDao.getById(id);
+    }
+
+    async create(car) {
+        return await this.carDao.create(car);
+    }
+
+    async update(car) {
+        return await this.carDao.update(car);
+    }
+
+    async deleteById(id) {
+        return await this.carDao.deleteById(id);
     }
 }
