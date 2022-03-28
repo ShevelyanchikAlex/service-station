@@ -5,6 +5,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import FooterComp from './FooterComp';
+import Admin from './pages/Admin';
 
 class NavbarComp extends Component {
     render() {
@@ -14,7 +15,7 @@ class NavbarComp extends Component {
                     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                         <Container>
                             <Navbar.Brand as={Link} to="/">
-                                Nikita's Service Station
+                                NAT Service Station
                             </Navbar.Brand>
                             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                             <Navbar.Collapse id="responsive-navbar-nav">
@@ -23,7 +24,7 @@ class NavbarComp extends Component {
                                     <Nav.Link as={Link} to="/home">About</Nav.Link>
                                 </Nav>
                                 <Nav>
-                                    <Nav.Link as={Link} to="/about">Smth</Nav.Link>
+                                    <Nav.Link as={Link} to="/admin">Admin</Nav.Link>
                                     <Nav.Link as={Link} to="/sign_in">
                                         Sign In
                                     </Nav.Link>
@@ -35,7 +36,7 @@ class NavbarComp extends Component {
                 <Routes>
                     <Route path='/' element={<Home></Home>} />
                     <Route path='/home' element={<div>home</div>} />
-                    <Route path='/about' element={<div>about</div>} />
+                    <Route path='/admin' element={<Admin></Admin>} />
                     <Route path='/sign_in' element={<SignIn></SignIn>} />
                     <Route path='*' element={<div>Not found</div>} />
                 </Routes>

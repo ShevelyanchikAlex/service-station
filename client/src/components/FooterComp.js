@@ -99,9 +99,9 @@ const FooterComp = () => {
             </section>
 
             <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-                © 2021 Copyright:
+                © 2022 Copyright:
                 <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-                    Nikita'sServiceStation.com
+                    NATServiceStation.com
                 </a>
             </div>
         </MDBFooter>
