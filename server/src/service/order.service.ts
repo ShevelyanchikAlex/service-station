@@ -7,6 +7,22 @@ export class OrderService {
     }
 
     async getAll() {
-        return this.orderDao.getAll();
+        return await this.orderDao.getAll();
+    }
+
+    async getById(id) {
+        return await this.orderDao.getById(id);
+    }
+
+    async create(order) {
+        return await this.orderDao.create(order);
+    }
+
+    async update(order) {
+        return await this.orderDao.update(order);
+    }
+
+    async deleteById(id) {
+        return await this.orderDao.deleteById(id);
     }
 }

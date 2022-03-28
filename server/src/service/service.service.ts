@@ -7,6 +7,22 @@ export class ServiceService {
     }
 
     async getAll() {
-        return this.serviceDao.getAll();
+        return await this.serviceDao.getAll();
+    }
+
+    async getById(id) {
+        return await this.serviceDao.getById(id);
+    }
+
+    async create(service) {
+        return await this.serviceDao.create(service);
+    }
+
+    async update(service) {
+        return await this.serviceDao.update(service);
+    }
+
+    async deleteById(id) {
+        return await this.serviceDao.deleteById(id);
     }
 }
