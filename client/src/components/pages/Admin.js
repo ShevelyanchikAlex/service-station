@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, Sonnet } from 'react-bootstrap';
 import SignIn from './SignIn';
-import TableServiceComp from '../TableServiceComp'
+import TableServiceComp from './admins_pages/TableServiceComp'
+import TableCarComp from './admins_pages/TableCarComp'
 
 const serviceList = [
     {
@@ -40,10 +41,10 @@ const Admin = () => {
     return (
         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
             <Tab eventKey="home" title="Services">
-                <TableServiceComp serviceList={serviceList}></TableServiceComp>
+                <TableServiceComp></TableServiceComp>
             </Tab>
-            <Tab eventKey="profile" title="Employees">
-                <h1>There will be table</h1>
+            <Tab eventKey="profile" title="Cars">
+                <TableCarComp></TableCarComp>
             </Tab>
             <Tab eventKey="contact" title="Contact">
                 <h1>There will be table</h1>

@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import NavbarComp from './components/NavbarComp'
-import axios from 'axios'
 import server from './API/server'
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 
 
 export default () => {
+    // const [cars, setCars] = useState([]);
+
+    // useEffect(() => {
+    //     const search = async (path, func) => {
+    //         const { data } = await server.get(path);
+    //         console.log(data);
+    //         func(data);
+    //     }
+    //     search('/cars', setCars);
+    // }, []);
+
     return (
         <div>
             <NavbarComp></NavbarComp>
