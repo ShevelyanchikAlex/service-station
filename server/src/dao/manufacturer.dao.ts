@@ -2,7 +2,7 @@ import {Injectable} from "@nestjs/common";
 import prisma from "../../lib/prisma";
 
 @Injectable()
-export class ManufactorerDao {
+export class ManufacturerDao {
     async getAll() {
         return await prisma.manufacturer.findMany();
     }

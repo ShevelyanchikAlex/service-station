@@ -28,7 +28,7 @@ export class ServiceDao {
                         connect: {id: +service.job_id},
                     },
                     order: {
-                        connect: {id: +service.orderId},
+                        connect: {id: +service.order_id},
                     },
                 },
                 include: {
@@ -50,7 +50,7 @@ export class ServiceDao {
                 description: service.description,
                 end_date: service.end_date,
                 job_id: +service.job_id,
-                orderId: +service.orderId,
+                order_id: +service.order_id,
             },
         });
     }

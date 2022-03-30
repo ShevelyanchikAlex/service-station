@@ -68,8 +68,8 @@ model Service {
   details     Detail[]
   job         Job?      @relation(fields: [job_id], references: [id])
   job_id      Int?
-  order       Order?    @relation(fields: [orderId], references: [id])
-  orderId     Int?
+  order       Order?    @relation(fields: [order_id], references: [id])
+  order_id     Int?
 
   @@map(name: "services")
 }
