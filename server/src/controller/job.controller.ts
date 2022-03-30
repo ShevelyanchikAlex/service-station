@@ -1,5 +1,7 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {JobService} from "../service/job.service";
+import {CreateJobDto} from "../dto/job/create.job.dto";
+import {UpdateJobDto} from "../dto/job/update.job.dto";
 
 @Controller('/jobs')
 export class JobController {
@@ -17,12 +19,12 @@ export class JobController {
     }
 
     @Post()
-    async create(@Body() job) {
+    async create(@Body() job: CreateJobDto) {
         return this.jobService.create(job);
     }
 
     @Put()
-    update(@Body() job) {
+    update(@Body() job: UpdateJobDto) {
         return this.jobService.update(job);
     }
 
