@@ -4,42 +4,40 @@ import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 
-const TableCarComp = () => {
+const TableManufactorerComp = () => {
     const [selectedId, setSelectedId] = useState(0);
-    const [carList, setCarList] = useState([]);
+    const [manufactorerList, setManufactorerList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
 
     //fields
-    const [number, setNumber] = useState('');
-    const [brand, setBrand] = useState('');
-    const [model, setModel] = useState('');
+    const [name, setName] = useState('');
 
     useEffect(() => {
         const search = async (path, func) => {
             const { data } = await server.get(path);
             func(data);
         }
-        search('/cars', setCarList);
+        search('/manufactors', setManufactorerList);
     }, []);
 
-    const tableHeaders = ['Car_number', 'Brand', 'Model'];
-    const tableName = 'car';
-    const tableSetters = [setNumber, setBrand, setModel];
-    const tableValues = [number, brand, model];
+    const tableHeaders = ['Name'];
+    const tableName = 'manufactorer';
+    const tableSetters = [setName];
+    const tableValues = [name];
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.post(path, valuesOfInputs);
-            setCarList([...carList, data]);
+            setManufactorerList([...manufactorerList, data]);
         }
-        addQuery('/cars');
+        addQuery('/manufactors');
     };
 
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
         }
-        addQuery('/cars');
+        addQuery('/manufactors');
     }
 
     const deleteItem = () => {
@@ -47,16 +45,14 @@ const TableCarComp = () => {
             const { data } = await server.delete(`${path}/${selectedId}`);
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
-        addQuery('/cars');
+        addQuery('/manufactors');
     }
 
-    const renderedItems = carList.map((item, index) => {
+    const renderedItems = manufactorerList.map((item, index) => {
         return (
             <tr key={index}>
                 <td>{item.id}</td>
-                <td>{item.car_number}</td>
-                <td>{item.brand}</td>
-                <td>{item.model}</td>
+                <td>{item.name}</td>
             </tr>
         )
     });
@@ -90,9 +86,7 @@ const TableCarComp = () => {
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Car number</th>
-                                    <th>Brand</th>
-                                    <th>Model</th>
+                                    <th>Name</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,4 +122,4 @@ const TableCarComp = () => {
     )
 }
 
-export default TableCarComp;
+export default TableManufactorerComp;

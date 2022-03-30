@@ -5,7 +5,7 @@ const AddItem = (props) => {
 
     const renderedLabels = props.tableHeaders.map((item, index) => {
         return (
-            <Card.Text>
+            <Card.Text key={index}>
                 {item}
             </Card.Text>
         )
@@ -13,7 +13,7 @@ const AddItem = (props) => {
 
     const renderedInputs = props.tableHeaders.map((item, index) => {
         return (
-            <Form.Control type="text" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
+            <Form.Control key={index} type="text" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
         )
     });
 

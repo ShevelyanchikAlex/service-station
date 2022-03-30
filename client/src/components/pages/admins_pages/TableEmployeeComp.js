@@ -4,42 +4,49 @@ import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 
-const TableCarComp = () => {
+const TableEmployeeComp = () => {
     const [selectedId, setSelectedId] = useState(0);
-    const [carList, setCarList] = useState([]);
+    const [employeeList, setEmployeeList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
 
     //fields
-    const [number, setNumber] = useState('');
-    const [brand, setBrand] = useState('');
-    const [model, setModel] = useState('');
+    const [name, setName] = useState('');
+    const [last_name, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [birth_date, setBirthDate] = useState('');
+    const [speciality, setSpeciality] = useState('');
+    const [work_book_id, setWorkBookId] = useState('');
+    const [salary, setSalary] = useState('');
+    const [start_working_date, setStartWorkingDate] = useState('');
+    const [role, setRole] = useState('');
 
     useEffect(() => {
         const search = async (path, func) => {
             const { data } = await server.get(path);
             func(data);
         }
-        search('/cars', setCarList);
+        search('/employees', setEmployeeList);
     }, []);
 
-    const tableHeaders = ['Car_number', 'Brand', 'Model'];
-    const tableName = 'car';
-    const tableSetters = [setNumber, setBrand, setModel];
-    const tableValues = [number, brand, model];
+    const tableHeaders = ['Name', 'Last_name', 'Email', 'Password', 'Birth_date', 'Speciality', 'Work_book_id', 'Salary', 'Start_working_date', 'Role'];
+    const tableName = 'employee';
+    const tableSetters = [setName, setLastName, setEmail, setPassword, setBirthDate, setSpeciality, setWorkBookId, setSalary, setStartWorkingDate, setRole];
+    const tableValues = [name, last_name, email, password, birth_date, speciality, work_book_id, salary, start_working_date, role];
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.post(path, valuesOfInputs);
-            setCarList([...carList, data]);
+            setEmployeeList([...employeeList, data]);
         }
-        addQuery('/cars');
+        addQuery('/employees');
     };
 
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
         }
-        addQuery('/cars');
+        addQuery('/employees');
     }
 
     const deleteItem = () => {
@@ -47,16 +54,23 @@ const TableCarComp = () => {
             const { data } = await server.delete(`${path}/${selectedId}`);
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
-        addQuery('/cars');
+        addQuery('/employees');
     }
 
-    const renderedItems = carList.map((item, index) => {
+    const renderedItems = employeeList.map((item, index) => {
         return (
             <tr key={index}>
                 <td>{item.id}</td>
-                <td>{item.car_number}</td>
-                <td>{item.brand}</td>
-                <td>{item.model}</td>
+                <td>{item.name}</td>
+                <td>{item.last_name}</td>
+                <td>{item.email}</td>
+                <td>{item.password}</td>
+                <td>{item.birth_date}</td>
+                <td>{item.speciality}</td>
+                <td>{item.work_book_id}</td>
+                <td>{item.salary}</td>
+                <td>{item.start_working_date}</td>
+                <td>{item.role}</td>
             </tr>
         )
     });
@@ -90,9 +104,16 @@ const TableCarComp = () => {
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Car number</th>
-                                    <th>Brand</th>
-                                    <th>Model</th>
+                                    <th>Name</th>
+                                    <th>Last_name</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
+                                    <th>Birth_date</th>
+                                    <th>Speciality</th>
+                                    <th>Work_book_id</th>
+                                    <th>Salary</th>
+                                    <th>Start_working_date</th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,4 +149,4 @@ const TableCarComp = () => {
     )
 }
 
-export default TableCarComp;
+export default TableEmployeeComp;

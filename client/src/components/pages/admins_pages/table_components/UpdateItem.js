@@ -25,7 +25,7 @@ const UpdateItem = (props) => {
 
     const renderedLabels = props.tableHeaders.map((item, index) => {
         return (
-            <Card.Text>
+            <Card.Text key={index}>
                 {item}
             </Card.Text>
         )
@@ -33,7 +33,7 @@ const UpdateItem = (props) => {
 
     const renderedInputs = props.tableHeaders.map((item, index) => {
         return (
-            <Form.Control type="text" id={`${props.tableName}${item.toLowerCase()}`} placeholder={`${props.tableName} ${item}`} value={`${props.tableValues[index]}`} onChange={(e) => { props.tableSetters[index](e.target.value) }}></Form.Control>
+            <Form.Control key={index} type="text" id={`${props.tableName}${item.toLowerCase()}`} placeholder={`${props.tableName} ${item}`} value={`${props.tableValues[index]}`} onChange={(e) => { props.tableSetters[index](e.target.value) }}></Form.Control>
         )
     });
 

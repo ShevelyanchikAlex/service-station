@@ -4,42 +4,44 @@ import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 
-const TableCarComp = () => {
+const TableDetailComp = () => {
     const [selectedId, setSelectedId] = useState(0);
-    const [carList, setCarList] = useState([]);
+    const [detailList, setDetailList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
 
     //fields
-    const [number, setNumber] = useState('');
-    const [brand, setBrand] = useState('');
-    const [model, setModel] = useState('');
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [warranty, setWarranty] = useState('');
+    const [manufacturer_id, setManufacturerId] = useState('');
+    const [service_id, setServiceId] = useState('');
 
     useEffect(() => {
         const search = async (path, func) => {
             const { data } = await server.get(path);
             func(data);
         }
-        search('/cars', setCarList);
+        search('/details', setDetailList);
     }, []);
 
-    const tableHeaders = ['Car_number', 'Brand', 'Model'];
-    const tableName = 'car';
-    const tableSetters = [setNumber, setBrand, setModel];
-    const tableValues = [number, brand, model];
+    const tableHeaders = ['Name', 'Price', 'Warranty', 'Manufacturer_id', 'Service_id'];
+    const tableName = 'detail';
+    const tableSetters = [setName, setPrice, setWarranty, setManufacturerId, setServiceId];
+    const tableValues = [name, price, warranty, manufacturer_id, service_id];
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.post(path, valuesOfInputs);
-            setCarList([...carList, data]);
+            setDetailList([...detailList, data]);
         }
-        addQuery('/cars');
+        addQuery('/details');
     };
 
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
         }
-        addQuery('/cars');
+        addQuery('/details');
     }
 
     const deleteItem = () => {
@@ -47,16 +49,18 @@ const TableCarComp = () => {
             const { data } = await server.delete(`${path}/${selectedId}`);
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
-        addQuery('/cars');
+        addQuery('/details');
     }
 
-    const renderedItems = carList.map((item, index) => {
+    const renderedItems = detailList.map((item, index) => {
         return (
             <tr key={index}>
                 <td>{item.id}</td>
-                <td>{item.car_number}</td>
-                <td>{item.brand}</td>
-                <td>{item.model}</td>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>{item.warranty}</td>
+                <td>{item.manufacturer_id}</td>
+                <td>{item.service_id}</td>
             </tr>
         )
     });
@@ -90,9 +94,11 @@ const TableCarComp = () => {
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Car number</th>
-                                    <th>Brand</th>
-                                    <th>Model</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Warranty</th>
+                                    <th>Manufacturer_id</th>
+                                    <th>Service_id</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,4 +134,4 @@ const TableCarComp = () => {
     )
 }
 
-export default TableCarComp;
+export default TableDetailComp;

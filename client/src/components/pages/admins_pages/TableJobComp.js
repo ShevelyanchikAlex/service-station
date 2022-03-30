@@ -4,42 +4,42 @@ import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 
-const TableCarComp = () => {
+const TableJobComp = () => {
     const [selectedId, setSelectedId] = useState(0);
-    const [carList, setCarList] = useState([]);
+    const [jobList, setJobList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
 
     //fields
-    const [number, setNumber] = useState('');
-    const [brand, setBrand] = useState('');
-    const [model, setModel] = useState('');
+    const [status, setStatus] = useState('');
+    const [end_date, setEndDate] = useState('');
+    const [employee_id, setEmployeeId] = useState('');
 
     useEffect(() => {
         const search = async (path, func) => {
             const { data } = await server.get(path);
             func(data);
         }
-        search('/cars', setCarList);
+        search('/jobs', setJobList);
     }, []);
 
-    const tableHeaders = ['Car_number', 'Brand', 'Model'];
-    const tableName = 'car';
-    const tableSetters = [setNumber, setBrand, setModel];
-    const tableValues = [number, brand, model];
+    const tableHeaders = ['Status', 'End_date', 'Employee_id'];
+    const tableName = 'job';
+    const tableSetters = [setStatus, setEndDate, setEmployeeId];
+    const tableValues = [status, end_date, employee_id];
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.post(path, valuesOfInputs);
-            setCarList([...carList, data]);
+            setJobList([...jobList, data]);
         }
-        addQuery('/cars');
+        addQuery('/jobs');
     };
 
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
         }
-        addQuery('/cars');
+        addQuery('/jobs');
     }
 
     const deleteItem = () => {
@@ -47,16 +47,16 @@ const TableCarComp = () => {
             const { data } = await server.delete(`${path}/${selectedId}`);
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
-        addQuery('/cars');
+        addQuery('/jobs');
     }
 
-    const renderedItems = carList.map((item, index) => {
+    const renderedItems = jobList.map((item, index) => {
         return (
             <tr key={index}>
                 <td>{item.id}</td>
-                <td>{item.car_number}</td>
-                <td>{item.brand}</td>
-                <td>{item.model}</td>
+                <td>{item.status}</td>
+                <td>{item.end_date}</td>
+                <td>{item.employee_id}</td>
             </tr>
         )
     });
@@ -90,9 +90,9 @@ const TableCarComp = () => {
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Car number</th>
-                                    <th>Brand</th>
-                                    <th>Model</th>
+                                    <th>Status</th>
+                                    <th>End_date</th>
+                                    <th>Employee_id</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,4 +128,4 @@ const TableCarComp = () => {
     )
 }
 
-export default TableCarComp;
+export default TableJobComp;
