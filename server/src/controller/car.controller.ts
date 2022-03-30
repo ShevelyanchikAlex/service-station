@@ -1,5 +1,7 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {CarService} from "../service/car.service";
+import {CreateCarDto} from "../dto/CreateCarDto";
+import {UpdateCarDto} from "../dto/UpdateCarDto";
 
 @Controller('/cars')
 export class CarController {
@@ -17,12 +19,12 @@ export class CarController {
     }
 
     @Post()
-    async create(@Body() car) {
+    async create(@Body() car: CreateCarDto) {
         return this.carService.create(car);
     }
 
     @Put()
-    async update(@Body() car) {
+    async update(@Body() car: UpdateCarDto) {
         return this.carService.update(car);
     }
 
