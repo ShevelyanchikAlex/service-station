@@ -1,5 +1,7 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {EmployeeService} from "../service/employee.service";
+import {CreateEmployeeDto} from "../dto/employee/create.employee.dto";
+import {UpdateEmployeeDto} from "../dto/employee/update.employee.dto";
 
 @Controller('/employees')
 export class EmployeeController {
@@ -17,12 +19,12 @@ export class EmployeeController {
     }
 
     @Post()
-    async create(@Body() employee) {
+    async create(@Body() employee: CreateEmployeeDto) {
         return this.employeeService.create(employee);
     }
 
     @Put()
-    async update(@Body() employee) {
+    async update(@Body() employee: UpdateEmployeeDto) {
         return this.employeeService.update(employee);
     }
 

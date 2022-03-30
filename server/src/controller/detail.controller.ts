@@ -1,5 +1,7 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
 import {DetailService} from "../service/detail.service";
+import {CreateDetailDto} from "../dto/detail/create.detail.dto";
+import {UpdateDetailDto} from "../dto/detail/update.detail.dto";
 
 @Controller('/details')
 export class DetailController {
@@ -17,12 +19,12 @@ export class DetailController {
     }
 
     @Post()
-    async create(@Body() detail) {
+    async create(@Body() detail: CreateDetailDto) {
         return this.detailService.create(detail);
     }
 
     @Put()
-    async update(@Body() detail) {
+    async update(@Body() detail: UpdateDetailDto) {
         return this.detailService.update(detail);
     }
 
