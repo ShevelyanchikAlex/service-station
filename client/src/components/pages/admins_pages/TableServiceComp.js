@@ -3,6 +3,7 @@ import { Table, Container, Row, Col, Card, Button, Form } from 'react-bootstrap'
 import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
+import ModalComp from './table_components/ModalComp'
 
 
 // const TableServiceComp = ({ serviceList }) => {
@@ -10,6 +11,8 @@ const TableServiceComp = () => {
     const [selectedId, setSelectedId] = useState(0);
     const [serviceList, setServiceList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
+    const [show, setShow] = useState(false);
+    const [modalText, setModalText] = useState(false);
 
     //fields
     const [name, setName] = useState('');
@@ -47,11 +50,23 @@ const TableServiceComp = () => {
         addQuery('/services');
     };
 
+
+    const changeStateOfModal = () => {
+        setShow(!show);
+    }
+
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
+            console.log(typeof (data));
         }
-        addQuery('/cars');
+        addQuery('/services').then(() => {
+            changeStateOfModal();
+            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     }
 
     const deleteItem = () => {
@@ -59,7 +74,13 @@ const TableServiceComp = () => {
             const { data } = await server.delete(`${path}/${selectedId}`);
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
-        addQuery('/cars');
+        addQuery('/services').then(() => {
+            changeStateOfModal();
+            setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     }
 
     const renderedItems = serviceList.map((item, index) => {
@@ -79,6 +100,7 @@ const TableServiceComp = () => {
 
     return (
         <div>
+            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}></ModalComp>
             <Container>
                 <Row>
                     <Col>
