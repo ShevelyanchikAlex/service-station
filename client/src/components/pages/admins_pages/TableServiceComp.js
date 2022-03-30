@@ -21,7 +21,7 @@ const TableServiceComp = () => {
     const [description, setDescription] = useState('');
     const [end_date, setEndDate] = useState('');
     const [job_id, setJobId] = useState('');
-    const [orderId, setOrderId] = useState('');
+    const [order_id, setOrder_id] = useState('');
 
     useEffect(() => {
 
@@ -34,10 +34,10 @@ const TableServiceComp = () => {
     }, []);
 
 
-    const tableHeaders = ['Name', 'Price', 'Warranty', 'Description', 'End_date', 'Job_id', 'OrderId'];
+    const tableHeaders = ['Name', 'Price', 'Warranty', 'Description', 'End_date', 'Job_id', 'Order_id'];
     const tableName = 'service';
-    const tableSetters = [setName, setPrice, setWarranty, setDescription, setEndDate, setJobId, setOrderId];
-    const tableValues = [name, price, warranty, description, end_date, job_id, orderId];
+    const tableSetters = [setName, setPrice, setWarranty, setDescription, setEndDate, setJobId, setOrder_id];
+    const tableValues = [name, price, warranty, description, end_date, job_id, order_id];
 
 
 
@@ -93,7 +93,7 @@ const TableServiceComp = () => {
                 <td>{item.description}</td>
                 <td>{item.end_date.toString()}</td>
                 <td>{item.job_id}</td>
-                <td>{item.orderId}</td>
+                <td>{item.order_id}</td>
             </tr>
         )
     });
