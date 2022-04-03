@@ -95,6 +95,8 @@ const UpdateItem = (props) => {
         //         <Form.Control key={index} type="datetime-local" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
         //     )
         // }
+        console.log(item)
+        console.log(props.tableValues)
         return (
             <Form.Control key={index} type="text" id={`${props.tableName}${item.toLowerCase()}`} placeholder={`${props.tableName} ${item}`} value={`${props.tableValues[index]}`} onChange={(e) => { props.tableSetters[index](e.target.value) }} />
         )
