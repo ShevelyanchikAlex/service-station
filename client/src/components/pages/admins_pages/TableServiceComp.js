@@ -170,7 +170,7 @@ const TableServiceComp = (props) => {
                                 <Card>
                                     <Card.Header>Delete item</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{`Delete item with id  = ${selectedId}?`}</Card.Title>
+                                        <Card.Title>{`Delete service ${selectedIdValues[1]} with end_date ${selectedIdValues[5]}?`}</Card.Title>
                                         <Card.Text>
                                             This item will be deleted.
                                         </Card.Text>

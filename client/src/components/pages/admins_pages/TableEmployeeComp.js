@@ -171,7 +171,7 @@ const TableEmployeeComp = (props) => {
                                 <Card>
                                     <Card.Header>Delete item</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{`Delete item with id  = ${selectedId}?`}</Card.Title>
+                                        <Card.Title>{`Delete employee ${selectedIdValues[1]} ${selectedIdValues[2]}?`}</Card.Title>
                                         <Card.Text>
                                             This item will be deleted.
                                         </Card.Text>

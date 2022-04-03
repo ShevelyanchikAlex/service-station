@@ -155,7 +155,7 @@ const TableDetailComp = (props) => {
                                 <Card>
                                     <Card.Header>Delete item</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{`Delete item with id  = ${selectedId}?`}</Card.Title>
+                                        <Card.Title>{`Delete item ${selectedIdValues[1].toUpperCase()}?`}</Card.Title>
                                         <Card.Text>
                                             This item will be deleted.
                                         </Card.Text>

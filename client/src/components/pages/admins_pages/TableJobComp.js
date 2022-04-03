@@ -149,7 +149,7 @@ const TableJobComp = (props) => {
                                 <Card>
                                     <Card.Header>Delete item</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{`Delete item with id  = ${selectedId}?`}</Card.Title>
+                                        <Card.Title>{`Delete job with status  = ${selectedIdValues[1]} and end_date ${selectedIdValues[2]}?`}</Card.Title>
                                         <Card.Text>
                                             This item will be deleted.
                                         </Card.Text>
