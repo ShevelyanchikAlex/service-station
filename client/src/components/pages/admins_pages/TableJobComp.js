@@ -12,6 +12,10 @@ const TableJobComp = (props) => {
     const [show, setShow] = useState(false);
     const [modalText, setModalText] = useState(false);
 
+
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
+
     //fields
     const [status, setStatus] = useState('');
     const [end_date, setEndDate] = useState('');
@@ -23,7 +27,7 @@ const TableJobComp = (props) => {
             func(data);
         }
         search('/jobs', setJobList);
-    }, []);
+    }, [updateValue]);
 
     const tableHeaders = ['Status', 'End_date', 'Employee_id'];
     const tableName = 'job';
@@ -36,9 +40,10 @@ const TableJobComp = (props) => {
             setJobList([...jobList, data]);
         }
         addQuery('/jobs').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
-            props.updateAdminsPage();
         }).catch(() => {
             changeStateOfModal();
             setModalText("Error! Can't make query. Try again.");
@@ -55,6 +60,8 @@ const TableJobComp = (props) => {
             console.log(typeof (data));
         }
         addQuery('/jobs').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -69,6 +76,8 @@ const TableJobComp = (props) => {
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/jobs').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
         }).catch(() => {

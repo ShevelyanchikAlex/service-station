@@ -12,6 +12,9 @@ const TableDetailComp = (props) => {
     const [show, setShow] = useState(false);
     const [modalText, setModalText] = useState(false);
 
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
+
     //fields
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -25,7 +28,7 @@ const TableDetailComp = (props) => {
             func(data);
         }
         search('/details', setDetailList);
-    }, []);
+    }, [updateValue]);
 
     const tableHeaders = ['Name', 'Price', 'Warranty', 'Manufacturer_id', 'Service_id'];
     const tableName = 'detail';
@@ -38,6 +41,7 @@ const TableDetailComp = (props) => {
             setDetailList([...detailList, data]);
         }
         addQuery('/details').then(() => {
+            setUpdateValue(!updateValue);
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
             props.updateAdminsPage();
@@ -58,6 +62,7 @@ const TableDetailComp = (props) => {
             console.log(typeof (data));
         }
         addQuery('/details').then(() => {
+            setUpdateValue(!updateValue);
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
@@ -73,6 +78,8 @@ const TableDetailComp = (props) => {
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/details').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
         }).catch(() => {

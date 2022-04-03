@@ -12,6 +12,9 @@ const TableEmployeeComp = (props) => {
     const [show, setShow] = useState(false);
     const [modalText, setModalText] = useState(false);
 
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
+
     //fields
     const [name, setName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -30,7 +33,7 @@ const TableEmployeeComp = (props) => {
             func(data);
         }
         search('/employees', setEmployeeList);
-    }, []);
+    }, [updateValue]);
 
     const tableHeaders = ['Name', 'Last_name', 'Email', 'Password', 'Birth_date', 'Speciality', 'Work_book_id', 'Salary', 'Start_working_date', 'Role'];
     const tableName = 'employee';
@@ -43,6 +46,7 @@ const TableEmployeeComp = (props) => {
             setEmployeeList([...employeeList, data]);
         }
         addQuery('/employees').then(() => {
+            setUpdateValue(!updateValue);
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
             props.updateAdminsPage();
@@ -63,6 +67,8 @@ const TableEmployeeComp = (props) => {
             console.log(typeof (data));
         }
         addQuery('/employees').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -77,6 +83,8 @@ const TableEmployeeComp = (props) => {
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/employees').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
         }).catch(() => {

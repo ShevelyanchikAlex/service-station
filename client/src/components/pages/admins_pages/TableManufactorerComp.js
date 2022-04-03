@@ -12,6 +12,9 @@ const TableManufactorerComp = (props) => {
     const [show, setShow] = useState(false);
     const [modalText, setModalText] = useState(false);
 
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
+
     //fields
     const [name, setName] = useState('');
 
@@ -21,7 +24,7 @@ const TableManufactorerComp = (props) => {
             func(data);
         }
         search('/manufactors', setManufactorerList);
-    }, []);
+    }, [updateValue]);
 
     const tableHeaders = ['Name'];
     const tableName = 'manufactorer';
@@ -34,9 +37,10 @@ const TableManufactorerComp = (props) => {
             setManufactorerList([...manufactorerList, data]);
         }
         addQuery('/manufactors').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
-            props.updateAdminsPage();
         }).catch(() => {
             changeStateOfModal();
             setModalText("Error! Can't make query. Try again.");
@@ -54,6 +58,8 @@ const TableManufactorerComp = (props) => {
             console.log(typeof (data));
         }
         addQuery('/manufactors').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -68,6 +74,8 @@ const TableManufactorerComp = (props) => {
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/manufactors').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
         }).catch(() => {

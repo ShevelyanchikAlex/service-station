@@ -60,9 +60,10 @@ const TableCarComp = (props) => {
             console.log(typeof (data));
         }
         addQuery('/cars').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
-            setUpdateValue(!updateValue);
         }).catch(() => {
             changeStateOfModal();
             setModalText("Error! Can't make query. Try again.");
@@ -75,6 +76,8 @@ const TableCarComp = (props) => {
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/cars').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
         }).catch(() => {

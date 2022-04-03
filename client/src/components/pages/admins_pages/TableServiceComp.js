@@ -5,14 +5,15 @@ import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
 
-
-// const TableServiceComp = ({ serviceList }) => {
 const TableServiceComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [serviceList, setServiceList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
     const [show, setShow] = useState(false);
     const [modalText, setModalText] = useState(false);
+
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
 
     //fields
     const [name, setName] = useState('');
@@ -31,7 +32,7 @@ const TableServiceComp = (props) => {
         }
 
         search('/services', setServiceList);
-    }, []);
+    }, [updateValue]);
 
 
     const tableHeaders = ['Name', 'Price', 'Warranty', 'Description', 'End_date', 'Job_id', 'Order_id'];
@@ -48,9 +49,10 @@ const TableServiceComp = (props) => {
             // func(data);
         }
         addQuery('/services').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
-            props.updateAdminsPage();
         }).catch(() => {
             changeStateOfModal();
             setModalText("Error! Can't make query. Try again.");
@@ -68,6 +70,8 @@ const TableServiceComp = (props) => {
             console.log(typeof (data));
         }
         addQuery('/services').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -82,6 +86,8 @@ const TableServiceComp = (props) => {
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/services').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -156,7 +162,7 @@ const TableServiceComp = (props) => {
                                 <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
-                                {selectedId ? <UpdateItem createItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
+                                {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
                             </Col>
                         </Row>
                         <Row>

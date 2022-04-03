@@ -20,6 +20,7 @@ const UpdateItem = (props) => {
             let item = document.getElementById(`${props.tableName}${props.tableHeaders[i].toLowerCase()}`);
             let key = props.tableHeaders[i].toString().toLowerCase();
             console.log("item value is ----------------" + item.value);
+            //Раскомментировать это для передачи айдишников интами
             // if (key.indexOf("_id") !== -1) {
             //     array[key] = parseInt(item.value);
             // } else {
@@ -70,14 +71,14 @@ const UpdateItem = (props) => {
             )
         }
         if (item == "Status") {
-            if (props.tableHeaders[index + 1] == "Created_at") {
+            if (props.tableHeaders[index + 1] == "End_date") {
                 return (
                     <DefaultDropdownComp defaultList={["PENDING", "IN_PROGRESS", "COMPLETED"]} id={`${props.tableName}${item.toLowerCase()}`} value={`${props.tableValues[index]}`} ></DefaultDropdownComp>
                 )
             }
         }
         if (item == "Status") {
-            if (props.tableHeaders[index + 1] == "End_date") {
+            if (props.tableHeaders[index + 1] == "Created_at") {
                 return (
                     <DefaultDropdownComp defaultList={["NEW", "IN_PROGRESS", "COMPLETED", "CANCELED", "CONFIRMED"]} id={`${props.tableName}${item.toLowerCase()}`} value={`${props.tableValues[index]}`}></DefaultDropdownComp>
                 )
@@ -88,6 +89,7 @@ const UpdateItem = (props) => {
                 <DefaultDropdownComp defaultList={["MANAGER", "DIRECTOR", "MASTER"]} id={`${props.tableName}${item.toLowerCase()}`} value={`${props.tableValues[index]}`} ></DefaultDropdownComp>
             )
         }
+        //Раскомментировать это для выпадающего календаря
         // if (item == "End_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Compleation_at") {
         //     return (
         //         <Form.Control key={index} type="datetime-local" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
@@ -97,10 +99,6 @@ const UpdateItem = (props) => {
             <Form.Control key={index} type="text" id={`${props.tableName}${item.toLowerCase()}`} placeholder={`${props.tableName} ${item}`} value={`${props.tableValues[index]}`} onChange={(e) => { props.tableSetters[index](e.target.value) }} />
         )
     });
-    //     return (
-    //         <Form.Control key={index} type="text" id={`${props.tableName}${item.toLowerCase()}`} placeholder={`${props.tableName} ${item}`} value={`${props.tableValues[index]}`} onChange={(e) => { props.tableSetters[index](e.target.value) }}></Form.Control>
-    //     )
-    // });
 
     return (
         <Card >
