@@ -7,7 +7,7 @@ import ModalComp from './table_components/ModalComp'
 
 
 // const TableServiceComp = ({ serviceList }) => {
-const TableServiceComp = () => {
+const TableServiceComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [serviceList, setServiceList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
@@ -47,7 +47,14 @@ const TableServiceComp = () => {
             setServiceList([...serviceList, data]);
             // func(data);
         }
-        addQuery('/services');
+        addQuery('/services').then(() => {
+            changeStateOfModal();
+            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            props.updateAdminsPage();
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     };
 
 
@@ -146,7 +153,7 @@ const TableServiceComp = () => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
                                 {selectedId ? <UpdateItem createItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}

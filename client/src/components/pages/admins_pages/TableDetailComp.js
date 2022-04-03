@@ -5,7 +5,7 @@ import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
 
-const TableDetailComp = () => {
+const TableDetailComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [detailList, setDetailList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
@@ -37,7 +37,14 @@ const TableDetailComp = () => {
             const { data } = await server.post(path, valuesOfInputs);
             setDetailList([...detailList, data]);
         }
-        addQuery('/details');
+        addQuery('/details').then(() => {
+            changeStateOfModal();
+            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            props.updateAdminsPage();
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     };
 
 
@@ -51,6 +58,7 @@ const TableDetailComp = () => {
             console.log(typeof (data));
         }
         addQuery('/details').then(() => {
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -129,7 +137,7 @@ const TableDetailComp = () => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
                                 {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}

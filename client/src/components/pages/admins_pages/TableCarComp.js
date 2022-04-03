@@ -5,7 +5,7 @@ import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
 
-const TableCarComp = () => {
+const TableCarComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [carList, setCarList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
@@ -17,13 +17,17 @@ const TableCarComp = () => {
     const [brand, setBrand] = useState('');
     const [model, setModel] = useState('');
 
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
+
     useEffect(() => {
         const search = async (path, func) => {
             const { data } = await server.get(path);
             func(data);
         }
         search('/cars', setCarList);
-    }, []);
+        console.log(`rerender car`);
+    }, [updateValue]);
 
     const tableHeaders = ['Car_number', 'Brand', 'Model'];
     const tableName = 'car';
@@ -33,9 +37,17 @@ const TableCarComp = () => {
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.post(path, valuesOfInputs);
-            setCarList([...carList, data]);
+            // setCarList([...carList, data]);
         }
-        addQuery('/cars');
+        addQuery('/cars').then(() => {
+            setUpdateValue(!updateValue);
+            changeStateOfModal();
+            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            props.updateAdminsPage();
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     };
 
     const changeStateOfModal = () => {
@@ -50,6 +62,7 @@ const TableCarComp = () => {
         addQuery('/cars').then(() => {
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            setUpdateValue(!updateValue);
         }).catch(() => {
             changeStateOfModal();
             setModalText("Error! Can't make query. Try again.");
@@ -123,7 +136,7 @@ const TableCarComp = () => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName} setUpdateValue={setUpdateValue}></AddItem>
                             </Col>
                             <Col>
                                 {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}

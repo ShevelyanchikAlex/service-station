@@ -5,7 +5,7 @@ import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
 
-const TableManufactorerComp = () => {
+const TableManufactorerComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [manufactorerList, setManufactorerList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
@@ -33,7 +33,14 @@ const TableManufactorerComp = () => {
             const { data } = await server.post(path, valuesOfInputs);
             setManufactorerList([...manufactorerList, data]);
         }
-        addQuery('/manufactors');
+        addQuery('/manufactors').then(() => {
+            changeStateOfModal();
+            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            props.updateAdminsPage();
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     };
 
 
@@ -118,7 +125,7 @@ const TableManufactorerComp = () => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
                                 {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}

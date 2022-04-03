@@ -5,7 +5,7 @@ import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
 
-const TableOrderComp = () => {
+const TableOrderComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [orderList, setOrderList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
@@ -19,13 +19,17 @@ const TableOrderComp = () => {
     const [cost, setCost] = useState('');
     const [car_id, setCarId] = useState('');
 
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
+
     useEffect(() => {
         const search = async (path, func) => {
             const { data } = await server.get(path);
             func(data);
         }
         search('/orders', setOrderList);
-    }, []);
+        console.log(`rerender order`);
+    }, [updateValue]);
 
     const tableHeaders = ['Status', 'Created_at', 'Compleation_at', 'Cost', 'Car_id'];
     const tableName = 'order';
@@ -37,7 +41,15 @@ const TableOrderComp = () => {
             const { data } = await server.post(path, valuesOfInputs);
             setOrderList([...orderList, data]);
         }
-        addQuery('/orders');
+        addQuery('/orders').then(() => {
+            setUpdateValue(!updateValue);
+            changeStateOfModal();
+            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            props.updateAdminsPage();
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     };
 
 
@@ -129,7 +141,7 @@ const TableOrderComp = () => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
                                 {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
