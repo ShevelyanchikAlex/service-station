@@ -5,14 +5,15 @@ import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
 
-
-// const TableServiceComp = ({ serviceList }) => {
-const TableServiceComp = () => {
+const TableServiceComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [serviceList, setServiceList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
     const [show, setShow] = useState(false);
     const [modalText, setModalText] = useState(false);
+
+    //UpdateTableField
+    const [updateValue, setUpdateValue] = useState(true);
 
     //fields
     const [name, setName] = useState('');
@@ -31,7 +32,7 @@ const TableServiceComp = () => {
         }
 
         search('/services', setServiceList);
-    }, []);
+    }, [updateValue]);
 
 
     const tableHeaders = ['Name', 'Price', 'Warranty', 'Description', 'End_date', 'Job_id', 'Order_id'];
@@ -47,7 +48,15 @@ const TableServiceComp = () => {
             setServiceList([...serviceList, data]);
             // func(data);
         }
-        addQuery('/services');
+        addQuery('/services').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
+            changeStateOfModal();
+            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+        }).catch(() => {
+            changeStateOfModal();
+            setModalText("Error! Can't make query. Try again.");
+        })
     };
 
 
@@ -61,6 +70,8 @@ const TableServiceComp = () => {
             console.log(typeof (data));
         }
         addQuery('/services').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -75,6 +86,8 @@ const TableServiceComp = () => {
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/services').then(() => {
+            setUpdateValue(!updateValue);
+            props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
         }).catch(() => {
@@ -86,7 +99,6 @@ const TableServiceComp = () => {
     const renderedItems = serviceList.map((item, index) => {
         return (
             <tr key={index}>
-                <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.warranty}</td>
@@ -97,6 +109,23 @@ const TableServiceComp = () => {
             </tr>
         )
     });
+
+    const objectToArray = (object) => {
+        let array1 = [];
+        let array2 = [];
+        let counter1 = 0;
+        let counter2 = 0;
+        for (let key in object) {
+            if (key != "id") {
+                array1[counter1++] = object[key];
+            }
+            array2[counter2++] = object[key];
+        }
+        return {
+            ar1: array1,
+            ar2: array2
+        };
+    }
 
     return (
         <div>
@@ -111,25 +140,42 @@ const TableServiceComp = () => {
                             if (target.tagName != 'TD') {
                                 console.log("not td")
                             } else {
+                                // const parent = target.parentElement;
+                                // const identifier = parent.firstChild.innerHTML;
+
+                                // setSelectedId(identifier);
+
+                                // let array = [];
+                                // for (var i = 0; i < parent.children.length; i++) {
+                                //     array[i] = parent.children[i].innerHTML;
+
+                                //     if (i != 0) {
+                                //         tableSetters[i - 1](parent.children[i].innerHTML);
+                                //     }
+                                // }
+                                // setSelectedIdValues(array);
+
                                 const parent = target.parentElement;
                                 const identifier = parent.firstChild.innerHTML;
 
-                                setSelectedId(identifier);
+                                console.log("identifier" + identifier);
+                                console.log("row " + objectToArray(serviceList[parent.rowIndex - 1]));
 
-                                let array = [];
+                                let arraysObj = objectToArray(serviceList[parent.rowIndex - 1]);
+                                console.log(arraysObj.ar1)
+                                console.log(arraysObj.ar2)
+
+                                setSelectedId(arraysObj.ar2[0]);
+
                                 for (var i = 0; i < parent.children.length; i++) {
-                                    array[i] = parent.children[i].innerHTML;
-
-                                    if (i != 0) {
-                                        tableSetters[i - 1](parent.children[i].innerHTML);
-                                    }
+                                    tableSetters[i](arraysObj.ar1[i]);
                                 }
-                                setSelectedIdValues(array);
+
+                                setSelectedIdValues(arraysObj.ar2);
                             }
                         }}>
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th>Warranty</th>
@@ -146,10 +192,10 @@ const TableServiceComp = () => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
-                                {selectedId ? <UpdateItem createItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
+                                {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
                             </Col>
                         </Row>
                         <Row>
@@ -157,7 +203,7 @@ const TableServiceComp = () => {
                                 <Card>
                                     <Card.Header>Delete item</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{`Delete item with id  = ${selectedId}?`}</Card.Title>
+                                        <Card.Title>{`Delete service ${selectedIdValues[1]} with end_date ${selectedIdValues[5]}?`}</Card.Title>
                                         <Card.Text>
                                             This item will be deleted.
                                         </Card.Text>
