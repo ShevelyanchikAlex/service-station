@@ -4,13 +4,17 @@ import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
+import DeleteModalComp from './table_components/DeleteModalComp'
 
 const TableCarComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [carList, setCarList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
-    const [show, setShow] = useState(false);
     const [modalText, setModalText] = useState(false);
+
+    //MODALS
+    const [show, setShow] = useState(false);
+    const [modalDeleteShow, setModalDeleteShow] = useState(false);
 
     //fields
     const [number, setNumber] = useState('');
@@ -43,7 +47,7 @@ const TableCarComp = (props) => {
         addQuery('/cars').then(() => {
             setUpdateValue(!updateValue);
             changeStateOfModal();
-            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            setModalText("Success! Data was updated successfully.");
             props.updateAdminsPage();
         }).catch(() => {
             changeStateOfModal();
@@ -55,6 +59,10 @@ const TableCarComp = (props) => {
         setShow(!show);
     }
 
+    const changeStateOfDeleteModal = () => {
+        setModalDeleteShow(!modalDeleteShow);
+    }
+
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
@@ -64,7 +72,7 @@ const TableCarComp = (props) => {
             setUpdateValue(!updateValue);
             props.updateAdminsPage();
             changeStateOfModal();
-            setModalText("Success! Data was updated successfully. Refresh page to see the new data.");
+            setModalText("Success! Data was updated successfully.");
         }).catch(() => {
             changeStateOfModal();
             setModalText("Error! Can't make query. Try again.");
@@ -80,7 +88,7 @@ const TableCarComp = (props) => {
             setUpdateValue(!updateValue);
             props.updateAdminsPage();
             changeStateOfModal();
-            setModalText("Success! Item was deleted successfully. Refresh page to see the new data.");
+            setModalText("Success! Item was deleted successfully.");
         }).catch(() => {
             changeStateOfModal();
             setModalText("Error! Can't make query. Try again.");
@@ -117,6 +125,7 @@ const TableCarComp = (props) => {
     return (
         <div>
             <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}></ModalComp>
+            <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem}></DeleteModalComp>
             <Container>
                 <Row>
                     <Col>
@@ -185,7 +194,7 @@ const TableCarComp = (props) => {
                                         <Card.Text>
                                             This item will be deleted.
                                         </Card.Text>
-                                        <Button variant="primary" onClick={(e) => { deleteItem() }}>Delete</Button>
+                                        <Button variant="primary" onClick={(e) => { setModalDeleteShow(!modalDeleteShow) }}>Delete</Button>
                                     </Card.Body>
                                 </Card> : ""}
                         </Row>
