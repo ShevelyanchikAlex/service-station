@@ -88,13 +88,29 @@ const TableJobComp = (props) => {
     const renderedItems = jobList.map((item, index) => {
         return (
             <tr key={index}>
-                <td>{item.id}</td>
                 <td>{item.status}</td>
                 <td>{item.end_date}</td>
                 <td>{item.employee_id}</td>
             </tr>
         )
     });
+
+    const objectToArray = (object) => {
+        let array1 = [];
+        let array2 = [];
+        let counter1 = 0;
+        let counter2 = 0;
+        for (let key in object) {
+            if (key != "id") {
+                array1[counter1++] = object[key];
+            }
+            array2[counter2++] = object[key];
+        }
+        return {
+            ar1: array1,
+            ar2: array2
+        };
+    }
 
     return (
         <div>
@@ -108,24 +124,41 @@ const TableJobComp = (props) => {
                             if (target.tagName != 'TD') {
                                 console.log("not td")
                             } else {
+                                // const parent = target.parentElement;
+                                // const identifier = parent.firstChild.innerHTML;
+                                // setSelectedId(identifier);
+
+                                // let array = [];
+                                // for (var i = 0; i < parent.children.length; i++) {
+                                //     array[i] = parent.children[i].innerHTML;
+
+                                //     if (i != 0) {
+                                //         tableSetters[i - 1](parent.children[i].innerHTML);
+                                //     }
+                                // }
+                                // setSelectedIdValues(array);
+
                                 const parent = target.parentElement;
                                 const identifier = parent.firstChild.innerHTML;
-                                setSelectedId(identifier);
 
-                                let array = [];
+                                console.log("identifier" + identifier);
+                                console.log("row " + objectToArray(jobList[parent.rowIndex - 1]));
+
+                                let arraysObj = objectToArray(jobList[parent.rowIndex - 1]);
+                                console.log(arraysObj.ar1)
+                                console.log(arraysObj.ar2)
+
+                                setSelectedId(arraysObj.ar2[0]);
+
                                 for (var i = 0; i < parent.children.length; i++) {
-                                    array[i] = parent.children[i].innerHTML;
-
-                                    if (i != 0) {
-                                        tableSetters[i - 1](parent.children[i].innerHTML);
-                                    }
+                                    tableSetters[i](arraysObj.ar1[i]);
                                 }
-                                setSelectedIdValues(array);
+
+                                setSelectedIdValues(arraysObj.ar2);
                             }
                         }}>
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Status</th>
                                     <th>End_date</th>
                                     <th>Employee_id</th>

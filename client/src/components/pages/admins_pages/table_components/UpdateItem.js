@@ -14,7 +14,7 @@ const UpdateItem = (props) => {
 
     const sendDataToParent = () => {
         let array = {};
-        array.id = selectedId;
+        array.id = selectedId.toString();
         for (let i = 0; i < props.tableHeaders.length; i++) {
             console.log(`${props.tableName}${props.tableHeaders[i].toLowerCase()}`)
             let item = document.getElementById(`${props.tableName}${props.tableHeaders[i].toLowerCase()}`);

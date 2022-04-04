@@ -52,14 +52,14 @@ const AddItem = (props) => {
         if (item == "Status") {
             if (props.tableHeaders[index + 1] == "Created_at") {
                 return (
-                    <DefaultDropdownComp defaultList={["PENDING", "IN_PROGRESS", "COMPLETED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
+                    <DefaultDropdownComp defaultList={["NEW", "IN_PROGRESS", "COMPLETED", "CANCELED", "CONFIRMED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
                 )
             }
         }
         if (item == "Status") {
             if (props.tableHeaders[index + 1] == "End_date") {
                 return (
-                    <DefaultDropdownComp defaultList={["NEW", "IN_PROGRESS", "COMPLETED", "CANCELED", "CONFIRMED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
+                    <DefaultDropdownComp defaultList={["PENDING", "IN_PROGRESS", "COMPLETED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
                 )
             }
         }
