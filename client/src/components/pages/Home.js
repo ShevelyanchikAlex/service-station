@@ -39,6 +39,8 @@ const serviceList = [
     },
 ]
 
+//Nikita
+
 const Home = () => {
 
     const renderedItems = serviceList.map((item) => {
