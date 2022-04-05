@@ -43,29 +43,37 @@ const serviceList = [
     }
 ]
 
+
 const Admin = () => {
+    const [updateValue, setUpdateValue] = useState(true);
+
+    const updateAdminsPage = () => {
+        console.log("change admins ")
+        setUpdateValue(!updateValue);
+    }
+
     return (
         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
             <Tab eventKey="home" title="Services">
-                <TableServiceComp></TableServiceComp>
+                <TableServiceComp updateAdminsPage={updateAdminsPage} updateValue={updateValue}></TableServiceComp>
             </Tab>
             <Tab eventKey="profile" title="Cars">
-                <TableCarComp></TableCarComp>
+                <TableCarComp updateAdminsPage={updateAdminsPage} updateValue={updateValue}></TableCarComp>
             </Tab>
             <Tab eventKey="details" title="Detais">
-                <TableDetailComp></TableDetailComp>
+                <TableDetailComp updateAdminsPage={updateAdminsPage} updateValue={updateValue}></TableDetailComp>
             </Tab>
             <Tab eventKey="employee" title="Employees">
-                <TableEmployeeComp></TableEmployeeComp>
+                <TableEmployeeComp updateAdminsPage={updateAdminsPage} updateValue={updateValue}></TableEmployeeComp>
             </Tab>
             <Tab eventKey="job" title="Jobs">
-                <TableJobComp></TableJobComp>
+                <TableJobComp updateAdminsPage={updateAdminsPage} updateValue={updateValue}></TableJobComp>
             </Tab>
             <Tab eventKey="manufactorer" title="Manufactorers">
-                <TableManufactorerComp></TableManufactorerComp>
+                <TableManufactorerComp updateAdminsPage={updateAdminsPage} updateValue={updateValue}></TableManufactorerComp>
             </Tab>
             <Tab eventKey="order" title="Orders">
-                <TableOrderComp></TableOrderComp>
+                <TableOrderComp updateAdminsPage={updateAdminsPage} updateValue={updateValue}></TableOrderComp>
             </Tab>
         </Tabs>
     )
