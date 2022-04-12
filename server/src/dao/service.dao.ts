@@ -23,17 +23,15 @@ export class ServiceDao {
                     price: +service.price,
                     warranty: +service.warranty,
                     description: service.description,
-                    end_date: service.end_date,
-                    job: {
-                        connect: {id: +service.job_id},
-                    },
-                    order: {
-                        connect: {id: +service.order_id},
+                    duration: +service.duration,
+                    details: {
+                        connect: service.details.map(detailId => ({
+                            id: +detailId,
+                        })),
                     },
                 },
                 include: {
-                    job: true,
-                    order: true,
+                    details: true,
                 },
             });
     }
@@ -48,9 +46,15 @@ export class ServiceDao {
                 price: +service.price,
                 warranty: +service.warranty,
                 description: service.description,
-                end_date: service.end_date,
-                job_id: +service.job_id,
-                order_id: +service.order_id,
+                duration: +service.duration,
+                details: {
+                    connect: service.details.map(detailId => ({
+                        id: +detailId,
+                    })),
+                },
+            },
+            include: {
+                details: true,
             },
         });
     }

@@ -1,4 +1,4 @@
-import {IsDateString, IsEnum, IsNumberString} from "class-validator";
+import {IsArray, IsDateString, IsEnum, IsNumberString} from "class-validator";
 
 enum OrderStatus {
     NEW,
@@ -16,7 +16,7 @@ export class CreateOrderDto {
     @IsDateString()
     completed_at: string;
     @IsNumberString()
-    cost: number;
-    @IsNumberString()
     car_id: number;
+    @IsArray()
+    services: [];
 }

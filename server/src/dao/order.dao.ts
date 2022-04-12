@@ -26,9 +26,15 @@ export class OrderDao {
                     car: {
                         connect: {id: +order.car_id},
                     },
+                    services: {
+                        connect: order.services.map(serviceId => ({
+                            id: +serviceId,
+                        })),
+                    },
                 },
                 include: {
                     car: true,
+                    services: true,
                 },
             });
     }
@@ -43,7 +49,18 @@ export class OrderDao {
                 created_at: order.created_at,
                 completed_at: order.completed_at,
                 cost: +order.cost,
-                car_id: +order.car_id,
+                car: {
+                    connect: {id: +order.car_id},
+                },
+                services: {
+                    connect: order.services.map(serviceId => ({
+                        id: +serviceId,
+                    })),
+                },
+            },
+            include: {
+                car: true,
+                services: true,
             },
         });
     }

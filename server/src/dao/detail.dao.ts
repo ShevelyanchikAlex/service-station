@@ -25,13 +25,9 @@ export class DetailDao {
                     manufacturer: {
                         connect: {id: +detail.manufacturer_id},
                     },
-                    service: {
-                        connect: {id: +detail.service_id},
-                    },
                 },
                 include: {
                     manufacturer: true,
-                    service: true,
                 },
             });
     }
@@ -45,7 +41,12 @@ export class DetailDao {
                 name: detail.name,
                 price: +detail.price,
                 warranty: +detail.warranty,
-                manufacturer: detail.manufacturer,
+                manufacturer: {
+                    connect: {id: +detail.manufacturer_id},
+                },
+            },
+            include: {
+                manufacturer: true,
             },
         });
     }

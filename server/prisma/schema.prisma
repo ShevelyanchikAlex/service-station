@@ -9,7 +9,7 @@ datasource db {
 
 model Car {
   id         Int     @id @default(autoincrement())
-  car_number String
+  car_number String  @unique
   brand      String
   model      String
   orders     Order[]
@@ -20,27 +20,27 @@ model Car {
 model Order {
   id           Int         @id @default(autoincrement())
   status       OrderStatus
-  created_at   DateTime    @default(now()) @map(name: "created_at")
-  completed_at DateTime?   @map(name: "completed_at")
+  created_at   String
+  completed_at String?
   cost         Float
   car          Car?        @relation(fields: [car_id], references: [id])
   car_id       Int?
-  services     Service[]
+  services     Service[]   @relation("ServiceToOrder")
 
   @@map(name: "orders")
 }
 
 model Employee {
-  id                 Int      @id @default(autoincrement())
+  id                 Int    @id @default(autoincrement())
   name               String
   last_name          String
-  email              String   @unique
+  email              String @unique
   password           String
-  birth_date         DateTime
+  birth_date         String
   speciality         String
   work_book_id       Int
   salary             Float
-  start_working_date DateTime @map(name: "start_working_date")
+  start_working_date String @map(name: "start_working_date")
   role               Role
   jobs               Job[]
 
@@ -50,8 +50,9 @@ model Employee {
 model Job {
   id          Int       @id @default(autoincrement())
   status      JobStatus
-  end_date    DateTime
-  services    Service[]
+  start_date  String
+  end_date    String
+  services    Service[] @relation("ServiceToJob")
   employee    Employee? @relation(fields: [employee_id], references: [id])
   employee_id Int?
 
@@ -59,17 +60,15 @@ model Job {
 }
 
 model Service {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   price       Float
   warranty    Int
   description String?
-  end_date    DateTime?
-  details     Detail[]
-  job         Job?      @relation(fields: [job_id], references: [id])
-  job_id      Int?
-  order       Order?    @relation(fields: [order_id], references: [id])
-  order_id    Int?
+  duration    Float
+  details     Detail[] @relation("ServiceToDetail")
+  jobs        Job[]    @relation("ServiceToJob")
+  orders      Order[]  @relation("ServiceToOrder")
 
   @@map(name: "services")
 }
@@ -81,8 +80,7 @@ model Detail {
   warranty        Int
   manufacturer    Manufacturer? @relation(fields: [manufacturer_id], references: [id])
   manufacturer_id Int?
-  service         Service?      @relation(fields: [service_id], references: [id])
-  service_id      Int?
+  services        Service[]     @relation("ServiceToDetail")
 
   @@map(name: "details")
 }

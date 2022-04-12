@@ -1,9 +1,9 @@
 import {IsDateString, IsEmail, IsEnum, IsNotEmpty, IsNumberString} from "class-validator";
 
 enum Role {
-    MASTER = 'MASTER',
-    MANAGER = 'MANAGER',
-    DIRECTOR = 'DIRECTOR'
+    MASTER,
+    MANAGER,
+    DIRECTOR
 }
 
 export class CreateEmployeeDto {

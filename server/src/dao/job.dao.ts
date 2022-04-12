@@ -20,13 +20,20 @@ export class JobDao {
             {
                 data: {
                     status: job.status,
+                    start_date: job.start_date,
                     end_date: job.end_date,
+                    services: {
+                        connect: job.services.map(serviceId => ({
+                            id: +serviceId,
+                        })),
+                    },
                     employee: {
                         connect: {id: +job.employee_id},
                     },
                 },
                 include: {
                     employee: true,
+                    services: true,
                 },
             });
     }
@@ -38,8 +45,20 @@ export class JobDao {
             },
             data: {
                 status: job.status,
+                start_date: job.start_date,
                 end_date: job.end_date,
-                employee_id: +job.employee_id,
+                services: {
+                    connect: job.services.map(serviceId => ({
+                        id: +serviceId,
+                    })),
+                },
+                employee: {
+                    connect: {id: +job.employee_id},
+                },
+            },
+            include: {
+                employee: true,
+                services: true,
             },
         });
     }

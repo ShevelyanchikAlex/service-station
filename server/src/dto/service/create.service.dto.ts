@@ -1,4 +1,4 @@
-import {IsDateString, IsNotEmpty, IsNumberString} from "class-validator";
+import {IsArray, IsNotEmpty, IsNumberString} from "class-validator";
 
 export class CreateServiceDto {
     @IsNotEmpty()
@@ -9,10 +9,8 @@ export class CreateServiceDto {
     warranty: number;
     @IsNotEmpty()
     description: string;
-    @IsDateString()
-    end_date: string;
     @IsNumberString()
-    job_id: number;
-    @IsNumberString()
-    order_id: number;
+    duration: number;
+    @IsArray()
+    details: [];
 }

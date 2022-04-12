@@ -6,6 +6,7 @@ import {ServiceDao} from "../dao/service.dao";
 @Module({
     controllers: [ServiceController],
     providers: [ServiceService, ServiceDao],
+    exports: [ServiceService],
 })
 export class ServiceModule {
 }

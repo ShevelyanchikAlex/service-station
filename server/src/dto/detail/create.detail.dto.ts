@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumberString, Min} from "class-validator";
+import {IsNotEmpty, IsNumberString} from "class-validator";
 
 export class CreateDetailDto {
     @IsNotEmpty()
@@ -9,6 +9,4 @@ export class CreateDetailDto {
     warranty: number
     @IsNumberString()
     manufacturer_id: number;
-    @IsNumberString()
-    service_id: number;
 }

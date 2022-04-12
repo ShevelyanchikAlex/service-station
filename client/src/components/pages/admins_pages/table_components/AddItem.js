@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import { Row, Col, Card, Button, Form } from 'react-bootstrap';
 import DropdownComp from './DropdownComp'
 import DefaultDropdownComp from './DefaultDropdownComp'
 
@@ -68,11 +68,11 @@ const AddItem = (props) => {
                 <DefaultDropdownComp defaultList={["MANAGER", "DIRECTOR", "MASTER"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
             )
         }
-        // if (item == "End_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Compleation_at") {
-        //     return (
-        //         <Form.Control key={index} type="datetime-local" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
-        //     )
-        // }
+        if (item == "End_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Compleation_at") {
+            return (
+                <Form.Control key={index} type="datetime-local" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
+            )
+        }
         return (
             <Form.Control key={index} type="text" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
         )

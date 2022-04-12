@@ -1,16 +1,18 @@
-import {IsDateString, IsEnum, IsNumberString} from "class-validator";
+import {IsArray, IsDateString, IsEnum, IsNumberString} from "class-validator";
 
 enum JobStatus {
-    PENDING = 'PENDING',
-    IN_PROGRESS = 'IN_PROGRESS',
-    COMPLETED = 'COMPLETED'
+    PENDING,
+    IN_PROGRESS,
+    COMPLETED
 }
 
 export class CreateJobDto {
     @IsEnum(JobStatus)
     status: JobStatus;
     @IsDateString()
-    end_date: Date;
+    end_date: string;
     @IsNumberString()
     employee_id: number;
+    @IsArray()
+    services: [];
 }

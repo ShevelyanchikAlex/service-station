@@ -90,11 +90,11 @@ const UpdateItem = (props) => {
             )
         }
         //Раскомментировать это для выпадающего календаря
-        // if (item == "End_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Compleation_at") {
-        //     return (
-        //         <Form.Control key={index} type="datetime-local" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
-        //     )
-        // }
+        if (item == "End_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Compleation_at") {
+            return (
+                <Form.Control key={index} type="datetime-local" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
+            )
+        }
         console.log(item)
         console.log(props.tableValues)
         return (
