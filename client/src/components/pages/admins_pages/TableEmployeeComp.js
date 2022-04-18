@@ -184,14 +184,14 @@ const TableEmployeeComp = (props) => {
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Last_name</th>
+                                    <th>Last name</th>
                                     <th>Email</th>
                                     <th>Password</th>
-                                    <th>Birth_date</th>
+                                    <th>Birth date</th>
                                     <th>Speciality</th>
-                                    <th>Work_book_id</th>
+                                    <th>Work book id</th>
                                     <th>Salary</th>
-                                    <th>Start_working_date</th>
+                                    <th>Start working date</th>
                                     <th>Role</th>
                                 </tr>
                             </thead>

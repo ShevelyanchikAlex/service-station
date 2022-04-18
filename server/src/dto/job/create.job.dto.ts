@@ -10,6 +10,8 @@ export class CreateJobDto {
     @IsEnum(JobStatus)
     status: JobStatus;
     @IsDateString()
+    start_date: string;
+    @IsDateString()
     end_date: string;
     @IsNumberString()
     employee_id: number;

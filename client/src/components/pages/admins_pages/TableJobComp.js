@@ -11,6 +11,7 @@ const TableJobComp = (props) => {
     const [jobList, setJobList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
     const [modalText, setModalText] = useState(false);
+    const [selectedItem, setSelectedItem] = useState({});
 
     //MODALS
     const [show, setShow] = useState(false);
@@ -22,6 +23,7 @@ const TableJobComp = (props) => {
     //fields
     const [status, setStatus] = useState('');
     const [end_date, setEndDate] = useState('');
+    const [start_date, setStartDate] = useState('');
     const [employee_id, setEmployeeId] = useState('');
 
     useEffect(() => {
@@ -32,10 +34,12 @@ const TableJobComp = (props) => {
         search('/jobs', setJobList);
     }, [updateValue]);
 
-    const tableHeaders = ['Status', 'End_date', 'Employee_id'];
+    const tableHeaders = ['Status', 'Start_date', 'End_date', 'Employee_id'];
     const tableName = 'job';
-    const tableSetters = [setStatus, setEndDate, setEmployeeId];
-    const tableValues = [status, end_date, employee_id];
+    const tableSetters = [setStatus, setStartDate, setEndDate, setEmployeeId];
+    const tableValues = [status, start_date, end_date, employee_id];
+
+    const jobFields = ['Status', 'Start_date', 'End_date', 'Employee_id', 'Services']
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
@@ -56,7 +60,6 @@ const TableJobComp = (props) => {
     const changeStateOfModal = () => {
         setShow(!show);
     }
-
 
     const changeStateOfDeleteModal = () => {
         setModalDeleteShow(!modalDeleteShow);
@@ -97,8 +100,9 @@ const TableJobComp = (props) => {
         return (
             <tr key={index}>
                 <td>{item.status}</td>
+                <td>{item.start_date}</td>
                 <td>{item.end_date}</td>
-                <td>{item.employee_id}</td>
+                <td>{item.employee.last_name}</td>
             </tr>
         )
     });
@@ -159,18 +163,20 @@ const TableJobComp = (props) => {
 
                                 setSelectedId(arraysObj.ar2[0]);
 
-                                for (var i = 0; i < parent.children.length; i++) {
+                                for (let i = 0; i < parent.children.length; i++) {
                                     tableSetters[i](arraysObj.ar1[i]);
                                 }
 
                                 setSelectedIdValues(arraysObj.ar2);
+                                setSelectedItem(jobList[parent.rowIndex - 1]);
                             }
                         }}>
                             <thead>
                                 <tr>
                                     <th>Status</th>
-                                    <th>End_date</th>
-                                    <th>Employee_id</th>
+                                    <th>End date</th>
+                                    <th>Start date</th>
+                                    <th>Employee</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,10 +186,10 @@ const TableJobComp = (props) => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={jobFields} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
-                                {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
+                                {selectedId ? <UpdateItem selectedItem={selectedItem} updateItem={updateItem} tableHeaders={jobFields} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
                             </Col>
                         </Row>
                         <Row>

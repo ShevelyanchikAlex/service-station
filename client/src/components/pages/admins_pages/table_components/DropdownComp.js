@@ -12,7 +12,6 @@ const DropdownComp = (props) => {
         const search = async (path, func) => {
             const { data } = await server.get(path);
             func(data);
-            console.log(data);
         }
         search(props.path, setListOfItems);
         // console.log(`rerender dropdown ${updateValue}`);

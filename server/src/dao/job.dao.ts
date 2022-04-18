@@ -4,13 +4,22 @@ import prisma from "../../lib/prisma";
 @Injectable()
 export class JobDao {
     async getAll() {
-        return await prisma.job.findMany();
+        return await prisma.job.findMany({
+            include: {
+                employee: true,
+                services: true,
+            },
+        });
     }
 
     async getById(id) {
         return await prisma.job.findUnique({
             where: {
                 id: +id,
+            },
+            include: {
+                employee: true,
+                services: true,
             },
         });
     }
@@ -48,7 +57,7 @@ export class JobDao {
                 start_date: job.start_date,
                 end_date: job.end_date,
                 services: {
-                    connect: job.services.map(serviceId => ({
+                    set: job.services.map(serviceId => ({
                         id: +serviceId,
                     })),
                 },

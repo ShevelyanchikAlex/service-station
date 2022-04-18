@@ -4,13 +4,20 @@ import prisma from "../../lib/prisma";
 @Injectable()
 export class ServiceDao {
     async getAll() {
-        return await prisma.service.findMany();
+        return await prisma.service.findMany({
+            include: {
+                details: true,
+            },
+        });
     }
 
     async getById(id) {
         return await prisma.service.findUnique({
             where: {
                 id: +id,
+            },
+            include: {
+                details: true,
             },
         });
     }
@@ -48,7 +55,7 @@ export class ServiceDao {
                 description: service.description,
                 duration: +service.duration,
                 details: {
-                    connect: service.details.map(detailId => ({
+                    set: service.details.map(detailId => ({
                         id: +detailId,
                     })),
                 },

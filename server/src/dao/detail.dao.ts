@@ -4,7 +4,11 @@ import prisma from "../../lib/prisma";
 @Injectable()
 export class DetailDao {
     async getAll() {
-        return await prisma.detail.findMany();
+        return await prisma.detail.findMany({
+            include: {
+                manufacturer: true,
+            }
+        });
     }
 
     async getById(id) {
@@ -12,6 +16,9 @@ export class DetailDao {
             where: {
                 id: +id,
             },
+            include: {
+                manufacturer: true,
+            }
         });
     }
 
