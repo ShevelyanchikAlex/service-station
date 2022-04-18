@@ -21,7 +21,7 @@ export class OrderService {
     }
 
     async update(order) {
-        order.cost = this.getOrderCost(order);
+        order.cost = await this.getOrderCost(order);
         return await this.orderDao.update(order);
     }
 

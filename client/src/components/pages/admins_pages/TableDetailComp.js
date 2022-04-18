@@ -24,7 +24,6 @@ const TableDetailComp = (props) => {
     const [price, setPrice] = useState('');
     const [warranty, setWarranty] = useState('');
     const [manufacturer_id, setManufacturerId] = useState('');
-    const [service_id, setServiceId] = useState('');
 
     useEffect(() => {
         const search = async (path, func) => {
@@ -34,10 +33,10 @@ const TableDetailComp = (props) => {
         search('/details', setDetailList);
     }, [updateValue]);
 
-    const tableHeaders = ['Name', 'Price', 'Warranty', 'Manufacturer_id', 'Service_id'];
+    const tableHeaders = ['Name', 'Price', 'Warranty', 'Manufacturer_id'];
     const tableName = 'detail';
-    const tableSetters = [setName, setPrice, setWarranty, setManufacturerId, setServiceId];
-    const tableValues = [name, price, warranty, manufacturer_id, service_id];
+    const tableSetters = [setName, setPrice, setWarranty, setManufacturerId];
+    const tableValues = [name, price, warranty, manufacturer_id];
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
@@ -97,13 +96,13 @@ const TableDetailComp = (props) => {
         })
     }
     const renderedItems = detailList.map((item, index) => {
+        console.log(item.manufacturer.name)
         return (
             <tr key={index}>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.warranty}</td>
-                <td>{item.manufacturer_id}</td>
-                <td>{item.service_id}</td>
+                <td>{item.manufacturer.name}</td>
             </tr>
         )
     });
@@ -176,8 +175,7 @@ const TableDetailComp = (props) => {
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th>Warranty</th>
-                                    <th>Manufacturer_id</th>
-                                    <th>Service_id</th>
+                                    <th>Manufacturer</th>
                                 </tr>
                             </thead>
                             <tbody>

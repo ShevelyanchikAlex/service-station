@@ -11,6 +11,7 @@ const TableOrderComp = (props) => {
     const [orderList, setOrderList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
     const [modalText, setModalText] = useState(false);
+    const [selectedItem, setSelectedItem] = useState({});
 
     //MODALS
     const [show, setShow] = useState(false);
@@ -19,7 +20,7 @@ const TableOrderComp = (props) => {
     //fields
     const [status, setStatus] = useState('');
     const [created_at, setCreatedAt] = useState('');
-    const [compleation_at, setCompeationAt] = useState('');
+    const [completed_at, setCompletedAt] = useState('');
     const [cost, setCost] = useState('');
     const [car_id, setCarId] = useState('');
 
@@ -35,10 +36,12 @@ const TableOrderComp = (props) => {
         console.log(`rerender order`);
     }, [updateValue]);
 
-    const tableHeaders = ['Status', 'Created_at', 'Compleation_at', 'Cost', 'Car_id'];
+    const tableHeaders = ['Status', 'Created_at', 'Completed_at', 'Car_id', 'Cost'];
     const tableName = 'order';
-    const tableSetters = [setStatus, setCreatedAt, setCompeationAt, setCost, setCarId];
-    const tableValues = [status, created_at, compleation_at, cost, car_id];
+    const tableSetters = [setStatus, setCreatedAt, setCompletedAt, setCost, setCarId];
+    const tableValues = [status, created_at, completed_at, cost, car_id];
+
+    const orderFields = ['Status', 'Created_at', 'Completed_at', 'Car_id', 'Services'];
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
@@ -102,9 +105,9 @@ const TableOrderComp = (props) => {
             <tr key={index}>
                 <td>{item.status}</td>
                 <td>{item.created_at}</td>
-                <td>{item.compleation_at}</td>
+                <td>{item.completed_at}</td>
                 <td>{item.cost}</td>
-                <td>{item.car_id}</td>
+                <td>{item.car.car_number}</td>
             </tr>
         )
     });
@@ -170,15 +173,16 @@ const TableOrderComp = (props) => {
                                 }
 
                                 setSelectedIdValues(arraysObj.ar2);
+                                setSelectedItem(orderList[parent.rowIndex - 1]);
                             }
                         }}>
                             <thead>
                                 <tr>
                                     <th>Status</th>
                                     <th>Created_at</th>
-                                    <th>Compleation_at</th>
+                                    <th>Completed_at</th>
                                     <th>Cost</th>
-                                    <th>Car_id</th>
+                                    <th>Car</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -188,10 +192,10 @@ const TableOrderComp = (props) => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={orderFields} tableName={tableName}></AddItem>
                             </Col>
                             <Col>
-                                {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
+                                {selectedId ? <UpdateItem selectedItem={selectedItem} updateItem={updateItem} tableHeaders={orderFields} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
                             </Col>
                         </Row>
                         <Row>

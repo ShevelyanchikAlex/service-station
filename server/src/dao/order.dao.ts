@@ -4,13 +4,22 @@ import prisma from "../../lib/prisma";
 @Injectable()
 export class OrderDao {
     async getAll() {
-        return await prisma.order.findMany();
+        return await prisma.order.findMany({
+            include: {
+                car: true,
+                services: true,
+            },
+        });
     }
 
     async getById(id) {
         return await prisma.order.findUnique({
             where: {
                 id: +id,
+            },
+            include: {
+                car: true,
+                services: true,
             },
         });
     }
@@ -53,7 +62,7 @@ export class OrderDao {
                     connect: {id: +order.car_id},
                 },
                 services: {
-                    connect: order.services.map(serviceId => ({
+                    set: order.services.map(serviceId => ({
                         id: +serviceId,
                     })),
                 },

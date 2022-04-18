@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { Row, Col, Card, Button, Form } from 'react-bootstrap';
 import DropdownComp from './DropdownComp'
 import DefaultDropdownComp from './DefaultDropdownComp'
+import MultiSelectDropdown from "./MultiSelectDropdown";
 
 const AddItem = (props) => {
+
+    const [selectedOptions, setSelectedOptions] = useState({});
+    const handleSelectingOptions = (key, options) => {
+        selectedOptions[key] = options;
+    };
 
     //UpdateTableField
     const [updateValue, setUpdateValue] = useState(true);
@@ -19,9 +25,19 @@ const AddItem = (props) => {
     });
 
     const renderedInputs = props.tableHeaders.map((item, index) => {
+        if (item == "Services") {
+            return (
+                <MultiSelectDropdown onSelect={handleSelectingOptions} updateValue={props.updateValue} path={"/services"} name={"name"} id={`${props.tableName}${item}`}/>
+            )
+        }
+        if (item == "Details") {
+            return (
+                <MultiSelectDropdown onSelect={handleSelectingOptions} updateValue={props.updateValue} path={"/details"} name={"name"} id={`${props.tableName}${item}`}/>
+            )
+        }
         if (item == "Manufacturer_id") {
             return (
-                <DropdownComp updateValue={props.updateValue} path={"/manufactors"} name={"name"} id={`${props.tableName}${item}`}></DropdownComp>
+                <DropdownComp updateValue={props.updateValue} path={"/manufactors"} name={"name"} id={`${props.tableName}${item}`}/>
             )
         }
         if (item == "Service_id") {
@@ -57,7 +73,7 @@ const AddItem = (props) => {
             }
         }
         if (item == "Status") {
-            if (props.tableHeaders[index + 1] == "End_date") {
+            if (props.tableHeaders[index + 1] == "Start_date") {
                 return (
                     <DefaultDropdownComp defaultList={["PENDING", "IN_PROGRESS", "COMPLETED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
                 )
@@ -68,7 +84,7 @@ const AddItem = (props) => {
                 <DefaultDropdownComp defaultList={["MANAGER", "DIRECTOR", "MASTER"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
             )
         }
-        if (item == "End_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Compleation_at") {
+        if (item == "End_date" || item == "Start_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Completed_at") {
             return (
                 <Form.Control key={index} type="datetime-local" id={`${props.tableName}${item}`} placeholder={`${props.tableName} ${item}`} />
             )
@@ -81,15 +97,20 @@ const AddItem = (props) => {
     const sendDataToParent = () => {
         let array = {};
         for (let i = 0; i < props.tableHeaders.length; i++) {
-            // console.log(`${props.tableName}${props.tableHeaders[i]}`);
+            console.log(`${props.tableName}${props.tableHeaders[i].toLowerCase()}`)
             let item = document.getElementById(`${props.tableName}${props.tableHeaders[i]}`);
-            // console.log(item);
             let key = props.tableHeaders[i].toString().toLowerCase();
-            // console.log(key)
-            // console.log(item.value);
-            array[key] = item.value;
+            if (item.nodeName == "INPUT" || item.nodeName == "SELECT") {
+                array[key] = item.value;
+            } else {
+                let ids = []
+                selectedOptions[`${props.tableName}${props.tableHeaders[i]}`].forEach(option => {
+                    ids.push(option.value);
+                })
+                console.log(ids);
+                array[key] = ids;
+            }
         }
-        // console.log(array)
         return array;
     }
 
@@ -107,7 +128,7 @@ const AddItem = (props) => {
                 </Row>
                 <br></br>
                 <Button variant="primary" onClick={() => {
-                    // console.log("did it");
+                    console.log("did it");
                     let valuesOfInputs = sendDataToParent();
                     // setUpdateValue(!updateValue);
                     props.createItem(valuesOfInputs);

@@ -10,6 +10,7 @@ const TableServiceComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [serviceList, setServiceList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
+    const [selectedItem, setSelectedItem] = useState({});
     const [modalText, setModalText] = useState(false);
 
     //MODALS
@@ -24,9 +25,7 @@ const TableServiceComp = (props) => {
     const [price, setPrice] = useState('');
     const [warranty, setWarranty] = useState('');
     const [description, setDescription] = useState('');
-    const [end_date, setEndDate] = useState('');
-    const [job_id, setJobId] = useState('');
-    const [order_id, setOrder_id] = useState('');
+    const [duration, setDuration] = useState('');
 
     useEffect(() => {
 
@@ -39,12 +38,12 @@ const TableServiceComp = (props) => {
     }, [updateValue]);
 
 
-    const tableHeaders = ['Name', 'Price', 'Warranty', 'Description', 'End_date', 'Job_id', 'Order_id'];
+    const tableHeaders = ['Name', 'Price', 'Warranty', 'Description', 'Duration'];
     const tableName = 'service';
-    const tableSetters = [setName, setPrice, setWarranty, setDescription, setEndDate, setJobId, setOrder_id];
-    const tableValues = [name, price, warranty, description, end_date, job_id, order_id];
+    const tableSetters = [setName, setPrice, setWarranty, setDescription, setDuration];
+    const tableValues = [name, price, warranty, description, duration];
 
-
+    const serviceFields = ['Name', 'Price', 'Warranty', 'Description', 'Duration', 'Details']
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
@@ -74,9 +73,10 @@ const TableServiceComp = (props) => {
     }
 
     const updateItem = (valuesOfInputs) => {
+        console.log(valuesOfInputs);
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
-            console.log(typeof (data));
+            console.log(data);
         }
         addQuery('/services').then(() => {
             setUpdateValue(!updateValue);
@@ -112,9 +112,7 @@ const TableServiceComp = (props) => {
                 <td>{item.price}</td>
                 <td>{item.warranty}</td>
                 <td>{item.description}</td>
-                <td>{item.end_date.toString()}</td>
-                <td>{item.job_id}</td>
-                <td>{item.order_id}</td>
+                <td>{item.duration}</td>
             </tr>
         )
     });
@@ -138,14 +136,13 @@ const TableServiceComp = (props) => {
 
     return (
         <div>
-            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}></ModalComp>
-            <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem}></DeleteModalComp>
+            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}/>
+            <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem}/>
             <Container>
                 <Row>
                     <Col>
                         <Table striped bordered hover variant="dark" onClick={(e) => {
                             let target = e.target;
-
 
                             if (target.tagName != 'TD') {
                                 console.log("not td")
@@ -168,20 +165,15 @@ const TableServiceComp = (props) => {
                                 const parent = target.parentElement;
                                 const identifier = parent.firstChild.innerHTML;
 
-                                console.log("identifier" + identifier);
-                                console.log("row " + objectToArray(serviceList[parent.rowIndex - 1]));
-
                                 let arraysObj = objectToArray(serviceList[parent.rowIndex - 1]);
-                                console.log(arraysObj.ar1)
-                                console.log(arraysObj.ar2)
 
                                 setSelectedId(arraysObj.ar2[0]);
-
                                 for (var i = 0; i < parent.children.length; i++) {
                                     tableSetters[i](arraysObj.ar1[i]);
                                 }
 
                                 setSelectedIdValues(arraysObj.ar2);
+                                setSelectedItem(serviceList[parent.rowIndex - 1]);
                             }
                         }}>
                             <thead>
@@ -190,9 +182,7 @@ const TableServiceComp = (props) => {
                                     <th>Price</th>
                                     <th>Warranty</th>
                                     <th>Description</th>
-                                    <th>End_date</th>
-                                    <th>Job_id</th>
-                                    <th>Order_id</th>
+                                    <th>Duration</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -202,10 +192,10 @@ const TableServiceComp = (props) => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={serviceFields} tableName={tableName}/>
                             </Col>
                             <Col>
-                                {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
+                                {selectedId ? <UpdateItem selectedItem={selectedItem} updateItem={updateItem} tableHeaders={serviceFields} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}/> : ""}
                             </Col>
                         </Row>
                         <Row>
