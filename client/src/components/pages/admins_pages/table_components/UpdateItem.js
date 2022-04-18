@@ -125,7 +125,7 @@ const UpdateItem = (props) => {
             )
         }
         if (item == "Status") {
-            if (props.tableHeaders[index + 1] == "End_date") {
+            if (props.tableHeaders[index + 1] == "Start_date") {
                 return (
                     <DefaultDropdownComp defaultList={["PENDING", "IN_PROGRESS", "COMPLETED"]}
                                          id={`${props.tableName}${item.toLowerCase()}`}
