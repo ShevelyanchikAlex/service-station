@@ -5,6 +5,7 @@ import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
 import ModalComp from './table_components/ModalComp'
 import DeleteModalComp from './table_components/DeleteModalComp'
+import '../../../styles/style.css'
 
 const TableServiceComp = (props) => {
     const [selectedId, setSelectedId] = useState(0);
@@ -12,6 +13,8 @@ const TableServiceComp = (props) => {
     const [selectedIdValues, setSelectedIdValues] = useState([]);
     const [selectedItem, setSelectedItem] = useState({});
     const [modalText, setModalText] = useState(false);
+
+    const [highlight, setHighlight] = useState(null)
 
     //MODALS
     const [show, setShow] = useState(false);
@@ -35,7 +38,7 @@ const TableServiceComp = (props) => {
         }
 
         search('/services', setServiceList);
-    }, [updateValue]);
+    }, [updateValue, highlight]);
 
 
     const tableHeaders = ['Name', 'Price', 'Warranty', 'Description', 'Duration'];
@@ -134,33 +137,46 @@ const TableServiceComp = (props) => {
         };
     }
 
+    const setActive = (target) => {
+        target.classList.add('active');
+    }
+
     return (
         <div>
-            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}/>
-            <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem}/>
+            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal} />
+            <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem} />
             <Container>
                 <Row>
                     <Col>
                         <Table striped bordered hover variant="dark" onClick={(e) => {
                             let target = e.target;
 
+
+
                             if (target.tagName != 'TD') {
                                 console.log("not td")
                             } else {
-                                // const parent = target.parentElement;
-                                // const identifier = parent.firstChild.innerHTML;
+                                // if (highlight !== null) {
 
-                                // setSelectedId(identifier);
+                                //     console.log(highlight)
+                                //     highlight.classList.remove('active');
+                                //     // highlight.style.background = "white";
+                                //     // setHighlight(target.parentNode);
+                                //     // // console.log(typeof parentNode);
+                                //     // highlight.style.background = "red";
 
-                                // let array = [];
-                                // for (var i = 0; i < parent.children.length; i++) {
-                                //     array[i] = parent.children[i].innerHTML;
-
-                                //     if (i != 0) {
-                                //         tableSetters[i - 1](parent.children[i].innerHTML);
-                                //     }
+                                //     setHighlight(target.parentNode);
+                                //     highlight.classList.add('active');
+                                // } else {
+                                //     console.log("add cl for bull")
+                                //     console.log(target.parentNode)
+                                //     setHighlight(target.parentNode);
+                                //     console.log(highlight)
+                                //     setActive(highlight);
                                 // }
-                                // setSelectedIdValues(array);
+                                // // setHighlight(target.parentNode);
+                                // // // console.log(typeof parentNode);
+                                // // highlight.style.background = "red";
 
                                 const parent = target.parentElement;
                                 const identifier = parent.firstChild.innerHTML;
@@ -192,10 +208,10 @@ const TableServiceComp = (props) => {
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={serviceFields} tableName={tableName}/>
+                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={serviceFields} tableName={tableName} />
                             </Col>
                             <Col>
-                                {selectedId ? <UpdateItem selectedItem={selectedItem} updateItem={updateItem} tableHeaders={serviceFields} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}/> : ""}
+                                {selectedId ? <UpdateItem selectedItem={selectedItem} updateItem={updateItem} tableHeaders={serviceFields} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues} /> : ""}
                             </Col>
                         </Row>
                         <Row>

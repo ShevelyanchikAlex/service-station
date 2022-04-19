@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CarouselComp from '../CarouselComp'
 import { Card, Button, Row, Col, Container, Form } from 'react-bootstrap';
+import server from '../../API/server'
 
 const serviceList = [
     {
@@ -39,18 +40,27 @@ const serviceList = [
     },
 ]
 
-//Nikita
-
 const Home = () => {
 
-    const renderedItems = serviceList.map((item) => {
+    const [services, setServices] = useState([]);
+
+    useEffect(() => {
+        const doSearch = async () => {
+
+            const { data } = await server.get('/services');
+            setServices(data);
+        }
+        doSearch();
+    }, []);
+
+    const renderedItems = services.map((item) => {
         return (
             <Container>
                 <Col>
                     <Card>
                         <Card.Img variant="top" src={require("../../assets/card.jpg")} />
                         <Card.Body>
-                            <Card.Title>{item.title}</Card.Title>
+                            <Card.Title>{item.name}</Card.Title>
                             <Card.Text>
                                 {item.description}
                             </Card.Text>
@@ -58,7 +68,7 @@ const Home = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-            </Container >
+            </Container>
         )
     });
 
@@ -73,11 +83,15 @@ const Home = () => {
             }}>
                 <div>Our services</div>
             </Row>
+
+
             <Container style={{ padding: '30px' }}>
                 <Row xs={1} md={4} className="g-4">
                     {renderedItems}
                 </Row>
             </Container>
+
+
             <div style={{ backgroundColor: '#212529', padding: '30px' }}>
                 <Container>
                     <Form>
