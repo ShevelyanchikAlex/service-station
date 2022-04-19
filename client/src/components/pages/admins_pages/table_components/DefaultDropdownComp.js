@@ -6,7 +6,7 @@ const DefaultDropdownComp = ({ defaultList, id }) => {
 
     const renderedOptions = defaultList.map((item, index) => {
         return (
-            <option value={item} >{item}</ option>
+            <option key={index} value={item} >{item}</ option>
         )
     })
 

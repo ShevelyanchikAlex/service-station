@@ -11,6 +11,7 @@ const TableManufactorerComp = (props) => {
     const [manufactorerList, setManufactorerList] = useState([]);
     const [selectedIdValues, setSelectedIdValues] = useState([]);
     const [modalText, setModalText] = useState(false);
+    const [modalMessage, setModalMessage] = useState([]);
 
     //MODALS
     const [show, setShow] = useState(false);
@@ -45,9 +46,12 @@ const TableManufactorerComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     };
 
@@ -64,16 +68,19 @@ const TableManufactorerComp = (props) => {
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
-            console.log(typeof (data));
+
         }
         addQuery('/manufactors').then(() => {
             setUpdateValue(!updateValue);
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     }
 
@@ -87,9 +94,12 @@ const TableManufactorerComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     }
 
@@ -120,7 +130,7 @@ const TableManufactorerComp = (props) => {
 
     return (
         <div>
-            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}></ModalComp>
+            <ModalComp show={show} modalText={modalText} modalMessage={modalMessage} changeStateOfModal={changeStateOfModal}></ModalComp>
             <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem}></DeleteModalComp>
             <Container>
                 <Row>
@@ -129,7 +139,7 @@ const TableManufactorerComp = (props) => {
                             let target = e.target;
 
                             if (target.tagName != 'TD') {
-                                console.log("not td")
+
                             } else {
                                 // const parent = target.parentElement;
                                 // const identifier = parent.firstChild.innerHTML;
@@ -148,12 +158,9 @@ const TableManufactorerComp = (props) => {
                                 const parent = target.parentElement;
                                 const identifier = parent.firstChild.innerHTML;
 
-                                console.log("identifier" + identifier);
-                                console.log("row " + objectToArray(manufactorerList[parent.rowIndex - 1]));
 
                                 let arraysObj = objectToArray(manufactorerList[parent.rowIndex - 1]);
-                                console.log(arraysObj.ar1)
-                                console.log(arraysObj.ar2)
+
 
                                 setSelectedId(arraysObj.ar2[0]);
 
