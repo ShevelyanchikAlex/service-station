@@ -26,7 +26,7 @@ const TableCarComp = (props) => {
 
     useEffect(() => {
         const search = async (path, func) => {
-            const { data } = await server.get(path);
+            const {data} = await server.get(path);
             func(data);
         }
         search('/cars', setCarList).then(() => {
@@ -41,7 +41,7 @@ const TableCarComp = (props) => {
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
-            const { data } = await server.post(path, valuesOfInputs);
+            const {data} = await server.post(path, valuesOfInputs);
             // setCarList([...carList, data]);
         }
         addQuery('/cars').then(() => {
@@ -65,7 +65,7 @@ const TableCarComp = (props) => {
 
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
-            const { data } = await server.put(path, valuesOfInputs);
+            const {data} = await server.put(path, valuesOfInputs);
             console.log(typeof (data));
         }
         addQuery('/cars').then(() => {
@@ -81,7 +81,7 @@ const TableCarComp = (props) => {
 
     const deleteItem = () => {
         const addQuery = async (path, func) => {
-            const { data } = await server.delete(`${path}/${selectedId}`);
+            const {data} = await server.delete(`${path}/${selectedId}`);
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/cars').then(() => {
@@ -94,7 +94,6 @@ const TableCarComp = (props) => {
             setModalText("Error! Can't make query. Try again.");
         })
     }
-
     const renderedItems = carList.map((item, index) => {
         return (
             <tr key={index}>
@@ -125,7 +124,8 @@ const TableCarComp = (props) => {
     return (
         <div>
             <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}></ModalComp>
-            <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem}></DeleteModalComp>
+            <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal}
+                             deleteItem={deleteItem}></DeleteModalComp>
             <Container>
                 <Row>
                     <Col>
@@ -166,23 +166,29 @@ const TableCarComp = (props) => {
                             }
                         }}>
                             <thead>
-                                <tr>
-                                    <th>Car number</th>
-                                    <th>Brand</th>
-                                    <th>Model</th>
-                                </tr>
+                            <tr>
+                                <th>Car number</th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {renderedItems}
+                            {renderedItems}
                             </tbody>
                         </Table>
                         <br></br>
                         <Row>
                             <Col>
-                                <AddItem updateValue={props.updateValue} createItem={createItem} tableHeaders={tableHeaders} tableName={tableName} setUpdateValue={setUpdateValue}></AddItem>
+                                <AddItem updateValue={props.updateValue} createItem={createItem}
+                                         tableHeaders={tableHeaders} tableName={tableName}
+                                         setUpdateValue={setUpdateValue}></AddItem>
                             </Col>
                             <Col>
-                                {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders} tableName={tableName} selectedId={selectedId} selectedIdValues={selectedIdValues} tableSetters={tableSetters} tableValues={tableValues}></UpdateItem> : ""}
+                                {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders}
+                                                          tableName={tableName} selectedId={selectedId}
+                                                          selectedIdValues={selectedIdValues}
+                                                          tableSetters={tableSetters}
+                                                          tableValues={tableValues}></UpdateItem> : ""}
                             </Col>
                         </Row>
                         <Row>
@@ -194,7 +200,9 @@ const TableCarComp = (props) => {
                                         <Card.Text>
                                             This item will be deleted.
                                         </Card.Text>
-                                        <Button variant="primary" onClick={(e) => { setModalDeleteShow(!modalDeleteShow) }}>Delete</Button>
+                                        <Button variant="primary" onClick={(e) => {
+                                            setModalDeleteShow(!modalDeleteShow)
+                                        }}>Delete</Button>
                                     </Card.Body>
                                 </Card> : ""}
                         </Row>
