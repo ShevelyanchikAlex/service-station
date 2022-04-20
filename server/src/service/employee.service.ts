@@ -1,5 +1,6 @@
-import {Injectable} from "@nestjs/common";
+import {BadRequestException, Injectable} from "@nestjs/common";
 import {EmployeeDao} from "../dao/employee.dao";
+import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
 
 @Injectable()
 export class EmployeeService {
@@ -15,11 +16,27 @@ export class EmployeeService {
     }
 
     async create(employee) {
-        return await this.employeeDao.create(employee);
+        try {
+            return await this.employeeDao.create(employee);
+        } catch (e) {
+            let message = [];
+            if (e instanceof PrismaClientKnownRequestError) {
+                message.push('email must be unique');
+                throw new BadRequestException(message);
+            }
+        }
     }
 
     async update(employee) {
-        return await this.employeeDao.update(employee);
+        try {
+            return await this.employeeDao.update(employee);
+        } catch (e) {
+            let message = [];
+            if (e instanceof PrismaClientKnownRequestError) {
+                message.push('email must be unique');
+                throw new BadRequestException(message);
+            }
+        }
     }
 
     async deleteById(id) {

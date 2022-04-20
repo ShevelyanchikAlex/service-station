@@ -1,5 +1,6 @@
-import {Injectable} from "@nestjs/common";
+import {BadRequestException, HttpException, Injectable} from "@nestjs/common";
 import {CarDao} from "../dao/car.dao";
+import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
 
 @Injectable()
 export class CarService {
@@ -15,11 +16,27 @@ export class CarService {
     }
 
     async create(car) {
-        return await this.carDao.create(car);
+        try {
+            return await this.carDao.create(car);
+        } catch (e) {
+            let message = [];
+            if (e instanceof PrismaClientKnownRequestError) {
+                message.push('car_number must be unique');
+                throw new BadRequestException(message);
+            }
+        }
     }
 
     async update(car) {
-        return await this.carDao.update(car);
+        try {
+            return await this.carDao.update(car);
+        } catch (e) {
+            let message = [];
+            if (e instanceof PrismaClientKnownRequestError) {
+                message.push('car_number must be unique');
+                throw new BadRequestException(message);
+            }
+        }
     }
 
     async deleteById(id) {
