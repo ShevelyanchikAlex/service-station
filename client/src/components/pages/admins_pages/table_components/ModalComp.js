@@ -20,7 +20,7 @@ const ModalComp = (props) => {
             <Modal.Body>
                 <p>{props.modalText}</p>
             </Modal.Body>
-            <Modal.Body style={{ color: "red" }}>
+            <Modal.Body style={props.modalMessage[0] == "No errors" ? { color: "green" } : { color: "red" }}>
                 {renderedItems}
             </Modal.Body>
 

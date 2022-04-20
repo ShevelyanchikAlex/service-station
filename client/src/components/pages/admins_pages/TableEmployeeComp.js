@@ -56,6 +56,7 @@ const TableEmployeeComp = (props) => {
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
             props.updateAdminsPage();
+            setModalMessage(["No errors"])
         }).catch((err) => {
 
 
@@ -87,6 +88,7 @@ const TableEmployeeComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
+            setModalMessage(["No errors"])
         }).catch((err) => {
 
 
@@ -107,6 +109,7 @@ const TableEmployeeComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully.");
+            setModalMessage(["No errors"])
         }).catch((err) => {
 
 

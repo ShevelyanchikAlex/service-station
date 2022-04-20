@@ -52,6 +52,7 @@ const TableJobComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
+            setModalMessage(["No errors"])
         }).catch((err) => {
 
             setModalMessage(err.response.data.message)
@@ -79,6 +80,7 @@ const TableJobComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
+            setModalMessage(["No errors"])
         }).catch((err) => {
 
             setModalMessage(err.response.data.message)
@@ -98,6 +100,7 @@ const TableJobComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully.");
+            setModalMessage(["No errors"])
         }).catch((err) => {
 
             setModalMessage(err.response.data.message)
