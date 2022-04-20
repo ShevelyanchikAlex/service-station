@@ -5,14 +5,23 @@ import ReactDOM from 'react-dom';
 const ModalComp = (props) => {
     // const [show, setShow] = useState(false);
 
+    const renderedItems = props.modalMessage.map((item, index) => {
+        return (
+            <p>{item}</p>
+        )
+    });
+
     return (
         <Modal show={props.show}>
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title>Update results</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
                 <p>{props.modalText}</p>
+            </Modal.Body>
+            <Modal.Body style={{ color: "red" }}>
+                {renderedItems}
             </Modal.Body>
 
             <Modal.Footer>

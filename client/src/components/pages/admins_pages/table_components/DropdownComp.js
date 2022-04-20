@@ -25,12 +25,12 @@ const DropdownComp = (props) => {
         if (props.value != undefined && props.value == (item.id)) {
             // console.log("!!!!!!!!!!!set dropdown value- " + item.id);
             return (
-                <option value={item.id} selected>{`${item[props.name]} ${secName ? item[secName] : ""}`}</ option>
+                <option key={index} value={item.id} selected>{`${item[props.name]} ${secName ? item[secName] : ""}`}</ option>
             )
         }
         // console.log("set dropdown value- " + item.id);
         return (
-            <option value={item.id} >{`${item[props.name]} ${secName ? item[secName] : ""}`}</ option>
+            <option key={index} value={item.id} >{`${item[props.name]} ${secName ? item[secName] : ""}`}</ option>
         )
     })
 

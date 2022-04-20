@@ -48,7 +48,7 @@ const Admin = () => {
     const [updateValue, setUpdateValue] = useState(true);
 
     const updateAdminsPage = () => {
-        console.log("change admins ")
+
         setUpdateValue(!updateValue);
     }
 

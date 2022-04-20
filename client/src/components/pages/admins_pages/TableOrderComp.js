@@ -13,6 +13,7 @@ const TableOrderComp = (props) => {
     const [modalText, setModalText] = useState(false);
     const [selectedItem, setSelectedItem] = useState({});
 
+    const [modalMessage, setModalMessage] = useState([]);
     //MODALS
     const [show, setShow] = useState(false);
     const [modalDeleteShow, setModalDeleteShow] = useState(false);
@@ -33,7 +34,7 @@ const TableOrderComp = (props) => {
             func(data);
         }
         search('/orders', setOrderList);
-        console.log(`rerender order`);
+
     }, [updateValue]);
 
     const tableHeaders = ['Status', 'Created_at', 'Completed_at', 'Car_id', 'Cost'];
@@ -53,9 +54,12 @@ const TableOrderComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     };
 
@@ -72,16 +76,18 @@ const TableOrderComp = (props) => {
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
-            console.log(typeof (data));
         }
         addQuery('/orders').then(() => {
             setUpdateValue(!updateValue);
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     }
 
@@ -95,9 +101,12 @@ const TableOrderComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     }
     const renderedItems = orderList.map((item, index) => {
@@ -131,7 +140,7 @@ const TableOrderComp = (props) => {
 
     return (
         <div>
-            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal}></ModalComp>
+            <ModalComp show={show} modalText={modalText} modalMessage={modalMessage} changeStateOfModal={changeStateOfModal}></ModalComp>
             <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem}></DeleteModalComp>
             <Container>
                 <Row>
@@ -140,7 +149,7 @@ const TableOrderComp = (props) => {
                             let target = e.target;
 
                             if (target.tagName != 'TD') {
-                                console.log("not td")
+
                             } else {
                                 // const parent = target.parentElement;
                                 // const identifier = parent.firstChild.innerHTML;
@@ -159,12 +168,9 @@ const TableOrderComp = (props) => {
                                 const parent = target.parentElement;
                                 const identifier = parent.firstChild.innerHTML;
 
-                                console.log("identifier" + identifier);
-                                console.log("row " + objectToArray(orderList[parent.rowIndex - 1]));
 
                                 let arraysObj = objectToArray(orderList[parent.rowIndex - 1]);
-                                console.log(arraysObj.ar1)
-                                console.log(arraysObj.ar2)
+
 
                                 setSelectedId(arraysObj.ar2[0]);
 

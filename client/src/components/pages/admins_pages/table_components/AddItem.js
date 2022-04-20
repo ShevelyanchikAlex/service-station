@@ -27,61 +27,61 @@ const AddItem = (props) => {
     const renderedInputs = props.tableHeaders.map((item, index) => {
         if (item == "Services") {
             return (
-                <MultiSelectDropdown onSelect={handleSelectingOptions} updateValue={props.updateValue} path={"/services"} name={"name"} id={`${props.tableName}${item}`}/>
+                <MultiSelectDropdown key={index} onSelect={handleSelectingOptions} updateValue={props.updateValue} path={"/services"} name={"name"} id={`${props.tableName}${item}`} />
             )
         }
         if (item == "Details") {
             return (
-                <MultiSelectDropdown onSelect={handleSelectingOptions} updateValue={props.updateValue} path={"/details"} name={"name"} id={`${props.tableName}${item}`}/>
+                <MultiSelectDropdown key={index} onSelect={handleSelectingOptions} updateValue={props.updateValue} path={"/details"} name={"name"} id={`${props.tableName}${item}`} />
             )
         }
         if (item == "Manufacturer_id") {
             return (
-                <DropdownComp updateValue={props.updateValue} path={"/manufactors"} name={"name"} id={`${props.tableName}${item}`}/>
+                <DropdownComp key={index} updateValue={props.updateValue} path={"/manufactors"} name={"name"} id={`${props.tableName}${item}`} />
             )
         }
         if (item == "Service_id") {
             return (
-                <DropdownComp updateValue={props.updateValue} path={"/services"} name={"name"} id={`${props.tableName}${item}`}></DropdownComp>
+                <DropdownComp key={index} updateValue={props.updateValue} path={"/services"} name={"name"} id={`${props.tableName}${item}`}></DropdownComp>
             )
         }
         if (item == "Employee_id") {
             return (
-                <DropdownComp updateValue={props.updateValue} path={"/employees"} name={"name"} secName={'last_name'} id={`${props.tableName}${item}`} ></DropdownComp>
+                <DropdownComp key={index} updateValue={props.updateValue} path={"/employees"} name={"name"} secName={'last_name'} id={`${props.tableName}${item}`} ></DropdownComp>
             )
         }
         if (item == "Car_id") {
             return (
-                <DropdownComp updateValue={props.updateValue} path={"/cars"} name={"brand"} secName={'car_number'} id={`${props.tableName}${item}`} ></DropdownComp>
+                <DropdownComp key={index} updateValue={props.updateValue} path={"/cars"} name={"brand"} secName={'car_number'} id={`${props.tableName}${item}`} ></DropdownComp>
             )
         }
         if (item == "Job_id") {
             return (
-                <DropdownComp updateValue={props.updateValue} path={"/jobs"} name={"status"} secName={'end_date'} id={`${props.tableName}${item}`} ></DropdownComp>
+                <DropdownComp key={index} updateValue={props.updateValue} path={"/jobs"} name={"status"} secName={'end_date'} id={`${props.tableName}${item}`} ></DropdownComp>
             )
         }
         if (item == "Order_id") {
             return (
-                <DropdownComp updateValue={props.updateValue} path={"/orders"} name={"status"} secName={'created_at'} id={`${props.tableName}${item}`} ></DropdownComp>
+                <DropdownComp key={index} updateValue={props.updateValue} path={"/orders"} name={"status"} secName={'created_at'} id={`${props.tableName}${item}`} ></DropdownComp>
             )
         }
         if (item == "Status") {
             if (props.tableHeaders[index + 1] == "Created_at") {
                 return (
-                    <DefaultDropdownComp defaultList={["NEW", "IN_PROGRESS", "COMPLETED", "CANCELED", "CONFIRMED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
+                    <DefaultDropdownComp key={index} defaultList={["NEW", "IN_PROGRESS", "COMPLETED", "CANCELED", "CONFIRMED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
                 )
             }
         }
         if (item == "Status") {
             if (props.tableHeaders[index + 1] == "Start_date") {
                 return (
-                    <DefaultDropdownComp defaultList={["PENDING", "IN_PROGRESS", "COMPLETED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
+                    <DefaultDropdownComp key={index} defaultList={["PENDING", "IN_PROGRESS", "COMPLETED"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
                 )
             }
         }
         if (item == "Role") {
             return (
-                <DefaultDropdownComp defaultList={["MANAGER", "DIRECTOR", "MASTER"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
+                <DefaultDropdownComp key={index} defaultList={["MANAGER", "DIRECTOR", "MASTER"]} id={`${props.tableName}${item}`} ></DefaultDropdownComp>
             )
         }
         if (item == "End_date" || item == "Start_date" || item == "Birth_date" || item == "Start_working_date" || item == "Created_at" || item == "Completed_at") {
@@ -97,7 +97,7 @@ const AddItem = (props) => {
     const sendDataToParent = () => {
         let array = {};
         for (let i = 0; i < props.tableHeaders.length; i++) {
-            console.log(`${props.tableName}${props.tableHeaders[i].toLowerCase()}`)
+
             let item = document.getElementById(`${props.tableName}${props.tableHeaders[i]}`);
             let key = props.tableHeaders[i].toString().toLowerCase();
             if (item.nodeName == "INPUT" || item.nodeName == "SELECT") {
@@ -130,7 +130,7 @@ const AddItem = (props) => {
                 </Row>
                 <br></br>
                 <Button variant="primary" onClick={() => {
-                    console.log("did it");
+
                     let valuesOfInputs = sendDataToParent();
                     // setUpdateValue(!updateValue);
                     props.createItem(valuesOfInputs);

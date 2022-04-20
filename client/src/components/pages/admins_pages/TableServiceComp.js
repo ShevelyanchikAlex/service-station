@@ -16,6 +16,7 @@ const TableServiceComp = (props) => {
 
     const [highlight, setHighlight] = useState(null)
 
+    const [modalMessage, setModalMessage] = useState([]);
     //MODALS
     const [show, setShow] = useState(false);
     const [modalDeleteShow, setModalDeleteShow] = useState(false);
@@ -59,9 +60,12 @@ const TableServiceComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     };
 
@@ -76,19 +80,22 @@ const TableServiceComp = (props) => {
     }
 
     const updateItem = (valuesOfInputs) => {
-        console.log(valuesOfInputs);
+
         const addQuery = async (path, func) => {
             const { data } = await server.put(path, valuesOfInputs);
-            console.log(data);
+
         }
         addQuery('/services').then(() => {
             setUpdateValue(!updateValue);
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Data was updated successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     }
 
@@ -102,9 +109,12 @@ const TableServiceComp = (props) => {
             props.updateAdminsPage();
             changeStateOfModal();
             setModalText("Success! Item was deleted successfully.");
-        }).catch(() => {
+        }).catch((err) => {
+
+            setModalMessage(err.response.data.message)
+
             changeStateOfModal();
-            setModalText("Error! Can't make query. Try again.");
+            setModalText("Error! Can't make query. Error:");
         })
     }
 
@@ -143,7 +153,7 @@ const TableServiceComp = (props) => {
 
     return (
         <div>
-            <ModalComp show={show} modalText={modalText} changeStateOfModal={changeStateOfModal} />
+            <ModalComp show={show} modalText={modalText} modalMessage={modalMessage} changeStateOfModal={changeStateOfModal} />
             <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal} deleteItem={deleteItem} />
             <Container>
                 <Row>
@@ -154,7 +164,7 @@ const TableServiceComp = (props) => {
 
 
                             if (target.tagName != 'TD') {
-                                console.log("not td")
+
                             } else {
                                 // if (highlight !== null) {
 
