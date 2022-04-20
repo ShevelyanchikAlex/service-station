@@ -1,5 +1,6 @@
 import {EmployeeDao} from "../../dao/employee.dao";
 import {EmployeeService} from "../../service/employee.service";
+import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
 
 describe('employee service tests', () => {
     let employeeDao: EmployeeDao;
@@ -45,5 +46,29 @@ describe('employee service tests', () => {
         jest.spyOn(employeeDao, 'deleteById').mockImplementation(async () => result)
         expect((await employeeService.deleteById(1))).toStrictEqual(result);
         expect(employeeDao.deleteById).toHaveBeenCalled();
+    })
+
+    it('should catch email unique constraint error when create employee', async () => {
+        let employee = null;
+        jest.spyOn(employeeDao, 'create').mockImplementation(async () => {
+            throw new PrismaClientKnownRequestError('', '', '');
+        })
+        const createEmployeeWithSameEmail = async () => {
+            await employeeService.create(employee);
+        }
+        await expect(createEmployeeWithSameEmail()).rejects.toThrow('Bad Request Exception');
+        expect(employeeDao.create).toHaveBeenCalled();
+    })
+
+    it('should catch email unique constraint error when update employee', async () => {
+        let employee = null;
+        jest.spyOn(employeeDao, 'update').mockImplementation(async () => {
+            throw new PrismaClientKnownRequestError('', '', '');
+        })
+        const createEmployeeWithSameEmail = async () => {
+            await employeeService.update(employee);
+        }
+        await expect(createEmployeeWithSameEmail()).rejects.toThrow('Bad Request Exception');
+        expect(employeeDao.update).toHaveBeenCalled();
     })
 })

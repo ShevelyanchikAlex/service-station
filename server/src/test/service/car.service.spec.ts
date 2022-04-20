@@ -1,5 +1,6 @@
 import {CarDao} from "../../dao/car.dao";
 import {CarService} from "../../service/car.service";
+import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
 
 describe('car service tests', () => {
     let carDao: CarDao;
@@ -45,5 +46,29 @@ describe('car service tests', () => {
         jest.spyOn(carDao, 'deleteById').mockImplementation(async () => result)
         expect((await carService.deleteById(1))).toStrictEqual(result);
         expect(carDao.deleteById).toHaveBeenCalled();
+    })
+
+    it('should catch car_number unique constraint error when create car', async () => {
+        let car = null;
+        jest.spyOn(carDao, 'create').mockImplementation(async () => {
+            throw new PrismaClientKnownRequestError('', '', '');
+        })
+        const createCarWithSameNumber = async () => {
+            await carService.create(car);
+        }
+        await expect(createCarWithSameNumber()).rejects.toThrow('Bad Request Exception');
+        expect(carDao.create).toHaveBeenCalled();
+    })
+
+    it('should catch car_number unique constraint error when update car', async () => {
+        let car = null;
+        jest.spyOn(carDao, 'update').mockImplementation(async () => {
+            throw new PrismaClientKnownRequestError('', '', '');
+        })
+        const createCarWithSameNumber = async () => {
+            await carService.update(car);
+        }
+        await expect(createCarWithSameNumber()).rejects.toThrow('Bad Request Exception');
+        expect(carDao.update).toHaveBeenCalled();
     })
 })
