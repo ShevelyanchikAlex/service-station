@@ -104,10 +104,12 @@ const AddItem = (props) => {
                 array[key] = item.value;
             } else {
                 let ids = []
-                selectedOptions[`${props.tableName}${props.tableHeaders[i]}`].forEach(option => {
-                    ids.push(option.value);
-                })
-
+                if (selectedOptions[`${props.tableName}${props.tableHeaders[i]}`] != undefined) {
+                    selectedOptions[`${props.tableName}${props.tableHeaders[i]}`].forEach(option => {
+                        ids.push(option.value);
+                    })
+                }
+                console.log(ids);
                 array[key] = ids;
             }
         }

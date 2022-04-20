@@ -34,9 +34,11 @@ const UpdateItem = (props) => {
                 array[key] = item.value;
             } else {
                 let ids = []
-                selectedOptions[`${props.tableName}${props.tableHeaders[i].toLowerCase()}`].forEach(option => {
-                    ids.push(option.value);
-                })
+                if (selectedOptions[`${props.tableName}${props.tableHeaders[i].toLowerCase()}`] != undefined) {
+                    selectedOptions[`${props.tableName}${props.tableHeaders[i].toLowerCase()}`].forEach(option => {
+                        ids.push(option.value);
+                    })
+                }
                 array[key] = ids;
                 console.log(array[key]);
             }
