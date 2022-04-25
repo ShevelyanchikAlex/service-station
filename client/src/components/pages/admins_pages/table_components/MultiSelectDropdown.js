@@ -24,9 +24,11 @@ const MultiSelectDropDown = (props) => {
         props.onSelect(props.id, options);
     };
 
+    console.log(props.selectedOptions)
+
     return (
         <Select
-            key={props.selectedOptions}
+            key={Math.random()}
             id={props.id}
             isMulti={true}
             options={listOfOptions}

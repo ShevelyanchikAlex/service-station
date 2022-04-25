@@ -119,7 +119,7 @@ const TableOrderComp = (props) => {
                 <td>{item.created_at}</td>
                 <td>{item.completed_at}</td>
                 <td>{item.cost}</td>
-                <td>{item.car.car_number}</td>
+                <td>{item.car == null ? 'Deleted' : item.car.car_number}</td>
             </tr>
         )
     });
@@ -188,8 +188,8 @@ const TableOrderComp = (props) => {
                             <thead>
                                 <tr>
                                     <th>Status</th>
-                                    <th>Created_at</th>
-                                    <th>Completed_at</th>
+                                    <th>Created at</th>
+                                    <th>Completed at</th>
                                     <th>Cost</th>
                                     <th>Car</th>
                                 </tr>
