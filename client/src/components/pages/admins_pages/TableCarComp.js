@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Card, Col, Container, Row, Table} from 'react-bootstrap';
 import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
@@ -27,7 +27,11 @@ const TableCarComp = (props) => {
 
     useEffect(() => {
         const search = async (path, func) => {
-            const { data } = await server.get(path);
+            const {data} = await server.get(path, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
             func(data);
         }
         search('/cars', setCarList).then(() => {
@@ -42,8 +46,12 @@ const TableCarComp = (props) => {
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
-            const { data } = await server.post(path, valuesOfInputs);
-            // setCarList([...carList, data]);
+            const {data} = await server.post(path, valuesOfInputs, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
+            setCarList([...carList, data]);
         }
         addQuery('/cars').then(() => {
             setUpdateValue(!updateValue);
@@ -52,10 +60,11 @@ const TableCarComp = (props) => {
             props.updateAdminsPage();
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
@@ -71,8 +80,11 @@ const TableCarComp = (props) => {
 
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
-            const { data } = await server.put(path, valuesOfInputs);
-
+            const {data} = await server.put(path, valuesOfInputs, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
         }
         addQuery('/cars').then(() => {
             setUpdateValue(!updateValue);
@@ -81,10 +93,11 @@ const TableCarComp = (props) => {
             setModalText("Success! Data was updated successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
@@ -92,7 +105,11 @@ const TableCarComp = (props) => {
 
     const deleteItem = () => {
         const addQuery = async (path, func) => {
-            const { data } = await server.delete(`${path}/${selectedId}`);
+            const {data} = await server.delete(`${path}/${selectedId}`, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/cars').then(() => {
@@ -102,9 +119,11 @@ const TableCarComp = (props) => {
             setModalText("Success! Item was deleted successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
@@ -138,9 +157,10 @@ const TableCarComp = (props) => {
 
     return (
         <div>
-            <ModalComp show={show} modalMessage={modalMessage} modalText={modalText} changeStateOfModal={changeStateOfModal}></ModalComp>
+            <ModalComp show={show} modalMessage={modalMessage} modalText={modalText}
+                       changeStateOfModal={changeStateOfModal}></ModalComp>
             <DeleteModalComp modalDeleteShow={modalDeleteShow} changeStateOfDeleteModal={changeStateOfDeleteModal}
-                deleteItem={deleteItem}></DeleteModalComp>
+                             deleteItem={deleteItem}></DeleteModalComp>
             <Container>
                 <Row>
                     <Col>
@@ -176,29 +196,29 @@ const TableCarComp = (props) => {
                             }
                         }}>
                             <thead>
-                                <tr>
-                                    <th>Car number</th>
-                                    <th>Brand</th>
-                                    <th>Model</th>
-                                </tr>
+                            <tr>
+                                <th>Car number</th>
+                                <th>Brand</th>
+                                <th>Model</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {renderedItems}
+                            {renderedItems}
                             </tbody>
                         </Table>
                         <br></br>
                         <Row>
                             <Col>
                                 <AddItem updateValue={props.updateValue} createItem={createItem}
-                                    tableHeaders={tableHeaders} tableName={tableName}
-                                    setUpdateValue={setUpdateValue}></AddItem>
+                                         tableHeaders={tableHeaders} tableName={tableName}
+                                         setUpdateValue={setUpdateValue}></AddItem>
                             </Col>
                             <Col>
                                 {selectedId ? <UpdateItem updateItem={updateItem} tableHeaders={tableHeaders}
-                                    tableName={tableName} selectedId={selectedId}
-                                    selectedIdValues={selectedIdValues}
-                                    tableSetters={tableSetters}
-                                    tableValues={tableValues}></UpdateItem> : ""}
+                                                          tableName={tableName} selectedId={selectedId}
+                                                          selectedIdValues={selectedIdValues}
+                                                          tableSetters={tableSetters}
+                                                          tableValues={tableValues}></UpdateItem> : ""}
                             </Col>
                         </Row>
                         <Row>

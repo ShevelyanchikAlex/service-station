@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Card, Col, Container, Row, Table} from 'react-bootstrap';
 import server from '../../../API/server'
 import AddItem from './table_components/AddItem'
 import UpdateItem from './table_components/UpdateItem'
@@ -34,7 +34,11 @@ const TableServiceComp = (props) => {
     useEffect(() => {
 
         const search = async (path, func) => {
-            const { data } = await server.get(path);
+            const { data } = await server.get(path, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
             func(data);
         }
 
@@ -51,7 +55,11 @@ const TableServiceComp = (props) => {
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
-            const { data } = await server.post(path, valuesOfInputs)
+            const { data } = await server.post(path, valuesOfInputs, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            })
             setServiceList([...serviceList, data]);
             // func(data);
         }
@@ -62,9 +70,11 @@ const TableServiceComp = (props) => {
             setModalText("Success! Data was updated successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
@@ -83,7 +93,11 @@ const TableServiceComp = (props) => {
     const updateItem = (valuesOfInputs) => {
 
         const addQuery = async (path, func) => {
-            const { data } = await server.put(path, valuesOfInputs);
+            const { data } = await server.put(path, valuesOfInputs, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
 
         }
         addQuery('/services').then(() => {
@@ -93,9 +107,11 @@ const TableServiceComp = (props) => {
             setModalText("Success! Data was updated successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
@@ -103,7 +119,11 @@ const TableServiceComp = (props) => {
 
     const deleteItem = () => {
         const addQuery = async (path, func) => {
-            const { data } = await server.delete(`${path}/${selectedId}`);
+            const { data } = await server.delete(`${path}/${selectedId}`, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/services').then(() => {
@@ -113,9 +133,11 @@ const TableServiceComp = (props) => {
             setModalText("Success! Item was deleted successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
