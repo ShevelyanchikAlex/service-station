@@ -10,7 +10,11 @@ const DropdownComp = (props) => {
 
     useEffect(() => {
         const search = async (path, func) => {
-            const { data } = await server.get(path);
+            const { data } = await server.get(path, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
             func(data);
         }
         search(props.path, setListOfItems);

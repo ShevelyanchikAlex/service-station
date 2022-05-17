@@ -15,6 +15,14 @@ export class EmployeeDao {
         });
     }
 
+    async getByEmail(email) {
+        return await prisma.employee.findUnique({
+            where: {
+                email: email,
+            },
+        });
+    }
+
     async create(employee) {
         return await prisma.employee.create(
             {

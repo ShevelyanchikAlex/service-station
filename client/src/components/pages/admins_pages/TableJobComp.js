@@ -29,7 +29,11 @@ const TableJobComp = (props) => {
 
     useEffect(() => {
         const search = async (path, func) => {
-            const { data } = await server.get(path);
+            const { data } = await server.get(path, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
             func(data);
         }
         search('/jobs', setJobList);
@@ -44,7 +48,11 @@ const TableJobComp = (props) => {
 
     const createItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
-            const { data } = await server.post(path, valuesOfInputs);
+            const { data } = await server.post(path, valuesOfInputs, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
             setJobList([...jobList, data]);
         }
         addQuery('/jobs').then(() => {
@@ -54,9 +62,11 @@ const TableJobComp = (props) => {
             setModalText("Success! Data was updated successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
@@ -72,7 +82,11 @@ const TableJobComp = (props) => {
 
     const updateItem = (valuesOfInputs) => {
         const addQuery = async (path, func) => {
-            const { data } = await server.put(path, valuesOfInputs);
+            const { data } = await server.put(path, valuesOfInputs, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
 
         }
         addQuery('/jobs').then(() => {
@@ -82,9 +96,11 @@ const TableJobComp = (props) => {
             setModalText("Success! Data was updated successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })
@@ -92,7 +108,11 @@ const TableJobComp = (props) => {
 
     const deleteItem = () => {
         const addQuery = async (path, func) => {
-            const { data } = await server.delete(`${path}/${selectedId}`);
+            const { data } = await server.delete(`${path}/${selectedId}`, {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                }
+            });
         }
         //ДОБАВИТЬ УДАЛЕНИЕ ИЗ ТАБЛИЦЫ
         addQuery('/jobs').then(() => {
@@ -102,9 +122,11 @@ const TableJobComp = (props) => {
             setModalText("Success! Item was deleted successfully.");
             setModalMessage(["No errors"])
         }).catch((err) => {
-
-            setModalMessage(err.response.data.message)
-
+            if (err.response.status == 401 || err.response.status == 403) {
+                setModalMessage(["You don't have enough rights"])
+            } else {
+                setModalMessage(err.response.data.message)
+            }
             changeStateOfModal();
             setModalText("Error! Can't make query. Error:");
         })

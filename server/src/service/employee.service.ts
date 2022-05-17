@@ -15,6 +15,10 @@ export class EmployeeService {
         return await this.employeeDao.getById(id);
     }
 
+    async getByEmail(email) {
+        return await this.employeeDao.getByEmail(email);
+    }
+
     async create(employee) {
         try {
             return await this.employeeDao.create(employee);
